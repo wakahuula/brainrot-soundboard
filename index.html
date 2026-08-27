@@ -205,6 +205,7 @@
   }
   .pad {
     position: relative;
+    touch-action: none;
     border-radius: 18px;
     border: 3px solid #fff;
     padding: 18px 8px 12px;
@@ -552,17 +553,35 @@ function render() {
     const pad = document.createElement('div');
     pad.className = 'pad c' + s.color;
     pad.innerHTML = `<span class="emoji">${s.emoji}</span><span class="name">${s.name}</span><span class="key">${KEY_LABEL(idx)}</span><span class="hits" id="hits-${realIdx}">${hits[realIdx] || 0}</span>`;
-    pad.addEventListener('click', e => { play(realIdx); spawnPop(e.clientX, e.clientY); });
-    // machine-gun on hold
-    let holdTimer = null, firing = null;
-    pad.addEventListener('mousedown', e => {
-      holdTimer = setTimeout(() => {
-        firing = setInterval(() => { play(realIdx); spawnPop(e.clientX, e.clientY); }, 110);
-      }, 380);
+    pad.addEventListener('click', e => {
+      // if a long-hold just machine-gunned this pad, skip the tap that
+      // fires right after the touch/mouse release
+      if (held) { held = false; return; }
+      play(realIdx); spawnPop(e.clientX, e.clientY);
     });
-    ['mouseup','mouseleave'].forEach(ev => pad.addEventListener(ev, () => {
+    // machine-gun on hold — Pointer Events unify mouse AND touch, so this
+    // works on desktop and mobile. pointer capture keeps firing even if the
+    // finger drags off the pad.
+    let holdTimer = null, firing = null, held = false;
+    const startHold = (x, y) => {
       clearTimeout(holdTimer); if (firing) clearInterval(firing); firing = null;
-    }));
+      held = false;
+      holdTimer = setTimeout(() => {
+        held = true;
+        play(realIdx);
+        firing = setInterval(() => { play(realIdx); spawnPop(x, y); }, 110);
+      }, 380);
+    };
+    const stopHold = () => {
+      clearTimeout(holdTimer); if (firing) clearInterval(firing); firing = null;
+    };
+    pad.addEventListener('pointerdown', e => {
+      try { pad.setPointerCapture(e.pointerId); } catch (err) {}
+      startHold(e.clientX, e.clientY);
+    });
+    pad.addEventListener('pointerup', stopHold);
+    pad.addEventListener('pointercancel', stopHold);
+    pad.addEventListener('lostpointercapture', stopHold);
     grid.appendChild(pad);
   });
 }
