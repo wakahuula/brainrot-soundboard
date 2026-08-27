@@ -1,0 +1,858 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>BRAINROT BOARD 9000 💀🤯 MAXIMUM+ CHAOS EDITION</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤯</text></svg>">
+<style>
+  :root {
+    --neon-pink: #ff2ec4;
+    --neon-cyan: #00ffff;
+    --neon-yellow: #ffee00;
+    --neon-purple: #a020f0;
+    --neon-green: #39ff14;
+    --neon-orange: #ff9100;
+    --neon-red: #ff0040;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+
+  html, body {
+    height: 100%;
+    overflow-x: hidden;
+    font-family: 'Comic Sans MS', 'Chalkboard SE', 'Comic Neue', cursive, sans-serif;
+    background: #0a0014;
+    color: #fff;
+    user-select: none;
+  }
+
+  /* ===== SEIZURE RAINBOW BACKGROUND (hue-rotating) ===== */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: -80%;
+    z-index: -2;
+    background:
+      radial-gradient(circle at 20% 30%, rgba(255,0,220,.5), transparent 40%),
+      radial-gradient(circle at 80% 20%, rgba(0,255,255,.5), transparent 40%),
+      radial-gradient(circle at 30% 80%, rgba(255,255,0,.45), transparent 40%),
+      radial-gradient(circle at 75% 75%, rgba(160,32,240,.55), transparent 40%),
+      radial-gradient(circle at 50% 50%, rgba(255,0,64,.4), transparent 50%),
+      repeating-linear-gradient(45deg, #1a0030 0px, #2b0050 20px, #1a0030 40px);
+    animation: bgSpin 12s linear infinite;
+    filter: saturate(2) hue-rotate(0deg);
+    transition: filter .2s;
+  }
+  @keyframes bgSpin { 0% { transform: rotate(0deg) scale(1);} 50% { transform: rotate(180deg) scale(1.4);} 100% { transform: rotate(360deg) scale(1);} }
+  body.hyper::before { animation-duration: .7s; filter: saturate(3) contrast(1.4) hue-rotate(90deg); }
+
+  /* floating emoji rain layer */
+  #emojis {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    overflow: hidden;
+  }
+  .float-emoji {
+    position: absolute;
+    bottom: -70px;
+    font-size: 34px;
+    animation: rise linear infinite;
+    opacity: .9;
+    filter: drop-shadow(0 0 10px rgba(255,255,255,.9));
+  }
+  @keyframes rise {
+    0%   { transform: translateY(0) rotate(0deg) scale(1); }
+    100% { transform: translateY(-115vh) rotate(720deg) scale(1.6); }
+  }
+
+  /* ===== SCREEN SHAKE (harder) ===== */
+  .shaking { animation: screenShake .2s linear 3; }
+  @keyframes screenShake {
+    0% { transform: translate(0,0) rotate(0); }
+    20% { transform: translate(-12px, 9px) rotate(-1deg); }
+    40% { transform: translate(11px,-9px) rotate(1deg); }
+    60% { transform: translate(-9px,-7px) rotate(-.6deg); }
+    80% { transform: translate(8px,7px) rotate(.6deg); }
+    100% { transform: translate(0,0) rotate(0); }
+  }
+  .mega-shake { animation: megaShake .5s linear 3; }
+  @keyframes megaShake {
+    0% { transform: translate(0,0); }
+    15% { transform: translate(-22px, 14px) rotate(-2deg); }
+    30% { transform: translate(20px,-16px) rotate(2deg); }
+    45% { transform: translate(-16px,-14px) rotate(-1.4deg); }
+    60% { transform: translate(15px,16px) rotate(1.4deg); }
+    75% { transform: translate(-12px,10px) rotate(-.8deg); }
+    100% { transform: translate(0,0); }
+  }
+
+  /* ===== HEADER ===== */
+  .header {
+    text-align: center;
+    padding: 24px 12px 12px;
+    position: relative;
+  }
+  h1 {
+    font-size: clamp(2.4rem, 10vw, 5.5rem);
+    font-weight: 900;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    display: inline-block;
+    background: linear-gradient(90deg, var(--neon-red), var(--neon-yellow), var(--neon-green), var(--neon-cyan), var(--neon-purple), var(--neon-pink), var(--neon-red));
+    background-size: 300% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    animation: rainbowFlow 1.2s linear infinite;
+    text-shadow: 0 0 34px rgba(255,46,196,.7);
+    filter: drop-shadow(0 0 12px rgba(0,255,255,.6));
+  }
+  @keyframes rainbowFlow { 0% {background-position: 0% 0;} 100% {background-position: 300% 0;} }
+
+  .tagline {
+    font-size: clamp(.95rem, 3.5vw, 1.4rem);
+    margin-top: 4px;
+    animation: blink .5s steps(2) infinite;
+    text-transform: uppercase;
+    font-weight: 900;
+  }
+  @keyframes blink { 50% { opacity: .05; } }
+
+  .sub {
+    font-size: .95rem;
+    opacity: .85;
+    margin-top: 4px;
+  }
+
+  /* ===== TOOLBAR ===== */
+  .toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 9px;
+    padding: 12px;
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: rgba(10,0,20,.78);
+    backdrop-filter: blur(8px);
+    border-bottom: 4px solid var(--neon-cyan);
+    box-shadow: 0 4px 24px rgba(0,255,255,.5);
+  }
+  .btn {
+    border: 2px solid #fff;
+    border-radius: 999px;
+    font-family: inherit;
+    font-weight: 900;
+    font-size: .9rem;
+    padding: 8px 14px;
+    cursor: pointer;
+    color: #0a0014;
+    background: linear-gradient(180deg,#fff,#ccc);
+    box-shadow: 0 5px 0 rgba(0,0,0,.5);
+    transition: transform .05s;
+    text-transform: uppercase;
+    letter-spacing: .5px;
+    animation: hoverWobble 3s infinite;
+  }
+  @keyframes hoverWobble { 0%,100%{ transform: rotate(0deg);} 50%{ transform: rotate(-1.5deg);} }
+  .btn:active { transform: translateY(4px) rotate(0) !important; box-shadow: 0 1px 0 rgba(0,0,0,.5); }
+  .btn.pink  { background: linear-gradient(180deg,#ffb6e8,#ff2ec4); }
+  .btn.cyan  { background: linear-gradient(180deg,#b6ffff,#00aaff); }
+  .btn.yellow{ background: linear-gradient(180deg,#fffdb6,#ffee00); }
+  .btn.green { background: linear-gradient(180deg,#c6ffb6,#39ff14); }
+  .btn.red   { background: linear-gradient(180deg,#ffb6c6,#ff0040); }
+  .btn.purple{ background: linear-gradient(180deg,#e0b6ff,#a020f0); color:#fff;}
+  .btn.big   { font-size: 1.05rem; padding: 11px 20px; animation: pulseBtn .7s infinite; }
+  @keyframes pulseBtn { 0%,100%{transform:scale(1);} 50%{transform:scale(1.08);} }
+  .btn.on { outline: 4px solid #fff; filter: brightness(1.3) saturate(2); animation: none; }
+
+  .cats {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px;
+    padding: 6px 12px;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+  .cat {
+    border: 2px solid rgba(255,255,255,.6);
+    background: rgba(255,255,255,.08);
+    color: #fff;
+    border-radius: 999px;
+    padding: 6px 14px;
+    font-family: inherit;
+    font-weight: 800;
+    font-size: .82rem;
+    cursor: pointer;
+    text-transform: uppercase;
+  }
+  .cat.on { background: var(--neon-yellow); color: #0a0014; border-color: var(--neon-yellow); box-shadow: 0 0 18px var(--neon-yellow); }
+
+  /* ===== GRID ===== */
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 14px;
+    padding: 18px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  .pad {
+    position: relative;
+    border-radius: 18px;
+    border: 3px solid #fff;
+    padding: 18px 8px 12px;
+    min-height: 120px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    cursor: pointer;
+    text-align: center;
+    transition: transform .05s, box-shadow .1s;
+    box-shadow: 0 6px 0 rgba(0,0,0,.55), 0 0 20px rgba(255,255,255,.18);
+    animation: padBreathe 2s infinite alternate;
+  }
+  @keyframes padBreathe { 0%{ transform: scale(1) rotate(0deg); } 100%{ transform: scale(1.03) rotate(1deg); } }
+  .pad:active { transform: translateY(5px) scale(.96) !important; animation-play-state: paused; }
+  .pad.flash { animation: padFlash .3s; filter: brightness(2) saturate(2.5); }
+  @keyframes padFlash { 0%{transform:scale(1) rotate(0);} 40%{transform:scale(1.18) rotate(4deg);} 100%{transform:scale(1) rotate(0);} }
+  .pad .emoji { font-size: 2.6rem; filter: drop-shadow(0 0 7px rgba(255,255,255,.95)); }
+  .pad .name { font-size: .76rem; font-weight: 900; text-transform: uppercase; letter-spacing: .5px; text-shadow: 0 2px 3px rgba(0,0,0,.85); line-height: 1.1; }
+  .pad .key { position:absolute; top:6px; left:9px; font-size:.7rem; opacity:.85; background:rgba(0,0,0,.4); padding:2px 6px; border-radius:6px; }
+  .pad .hits { position:absolute; top:6px; right:9px; font-size:.72rem; font-weight:800; opacity:.9; }
+
+  /* rainbow pad colors */
+  .c0 { background: linear-gradient(160deg,#ff6b6b,#c0392b); }
+  .c1 { background: linear-gradient(160deg,#ff9ff3,#d63384); }
+  .c2 { background: linear-gradient(160deg,#ffd93d,#f0932b); }
+  .c3 { background: linear-gradient(160deg,#6bcb77,#27ae60); }
+  .c4 { background: linear-gradient(160deg,#48dbfb,#0984e3); }
+  .c5 { background: linear-gradient(160deg,#a29bfe,#6c5ce7); }
+  .c6 { background: linear-gradient(160deg,#fd79a8,#e84393); }
+  .c7 { background: linear-gradient(160deg,#fdcb6e,#d35400); }
+  .c8 { background: linear-gradient(160deg,#55efc4,#00b894); }
+  .c9 { background: linear-gradient(160deg,#74b9ff,#2980b9); }
+
+  /* ===== NOW SHOWING ===== */
+  #now {
+    position: fixed;
+    left: 50%;
+    bottom: 20px;
+    transform: translateX(-50%) translateY(120px);
+    background: rgba(0,0,0,.88);
+    border: 3px solid var(--neon-pink);
+    border-radius: 999px;
+    padding: 10px 26px;
+    font-weight: 900;
+    font-size: 1.15rem;
+    text-transform: uppercase;
+    box-shadow: 0 0 34px var(--neon-pink);
+    z-index: 100;
+    transition: transform .3s cubic-bezier(.2,2,.4,1);
+    white-space: nowrap;
+    pointer-events: none;
+  }
+  #now.show { transform: translateX(-50%) translateY(0); }
+
+  /* ===== CHAOS / AURA ===== */
+  #chaos {
+    text-align: center;
+    font-size: 1rem;
+    padding: 6px;
+    font-weight: 800;
+    color: var(--neon-yellow);
+    text-shadow: 0 0 14px var(--neon-yellow);
+  }
+  #chaos b { font-size: 1.5rem; }
+  #aura {
+    text-align: center;
+    font-size: .85rem;
+    padding: 2px 6px 8px;
+    font-weight: 800;
+    color: var(--neon-cyan);
+    text-shadow: 0 0 12px var(--neon-cyan);
+  }
+
+  /* flash overlay */
+  #flash {
+    position: fixed; inset: 0; z-index: 200; pointer-events: none; display: none;
+    background: radial-gradient(circle, rgba(255,255,255,.6), rgba(255,0,120,.5));
+    mix-blend-mode: overlay;
+  }
+
+  /* combo popup text */
+  .pop {
+    position: fixed;
+    font-weight: 900;
+    font-size: 1.6rem;
+    text-transform: uppercase;
+    z-index: 300;
+    pointer-events: none;
+    text-shadow: 0 0 14px currentColor, 2px 2px 0 #000;
+    animation: popUp 1s forwards;
+    white-space: nowrap;
+  }
+  @keyframes popUp {
+    0%   { transform: translateY(0) scale(.3) rotate(-8deg); opacity: 1; }
+    100% { transform: translateY(-140px) scale(1.8) rotate(10deg); opacity: 0; }
+  }
+
+  footer {
+    text-align: center; padding: 18px; opacity: .75; font-size: .8rem;
+  }
+
+  /* ===== HELP / ? MODAL ===== */
+  .help-btn {
+    border-radius: 999px;
+    width: 34px; height: 34px;
+    display: inline-grid; place-items: center;
+    font-size: 1rem; font-weight: 900;
+    cursor: pointer;
+    border: 2px solid #fff;
+    background: linear-gradient(180deg,#b6ffff,#00aaff);
+    color: #0a0014;
+    box-shadow: 0 4px 0 rgba(0,0,0,.5);
+  }
+  .help-btn:active { transform: translateY(3px); box-shadow: 0 1px 0 rgba(0,0,0,.5); }
+
+  .help-overlay {
+    position: fixed; inset: 0; z-index: 400;
+    background: rgba(0,0,0,.72);
+    display: none;
+    align-items: center; justify-content: center;
+    padding: 20px;
+  }
+  .help-overlay.show { display: flex; }
+  .help-box {
+    background: #15002a;
+    border: 3px solid var(--neon-cyan);
+    border-radius: 20px;
+    max-width: 560px;
+    width: 100%;
+    max-height: 82vh;
+    overflow-y: auto;
+    padding: 22px 22px 26px;
+    box-shadow: 0 0 40px rgba(0,255,255,.5);
+    color: #fff;
+    font-family: inherit;
+  }
+  .help-box h2 {
+    font-size: 1.5rem;
+    margin-bottom: 4px;
+    text-transform: uppercase;
+    background: linear-gradient(90deg,var(--neon-yellow),var(--neon-pink),var(--neon-cyan));
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+  .help-sub { font-size: .8rem; opacity: .7; margin-bottom: 16px; }
+  .help-item {
+    display: flex; gap: 12px; align-items: flex-start;
+    border: 1px solid rgba(255,255,255,.14);
+    border-radius: 14px;
+    padding: 12px 14px;
+    margin-bottom: 10px;
+    background: rgba(255,255,255,.05);
+  }
+  .help-item .hl {
+    flex: 0 0 auto;
+    font-size: 1.7rem;
+    line-height: 1;
+    min-width: 40px;
+    text-align: center;
+  }
+  .help-item b { display: block; font-size: .92rem; text-transform: uppercase; margin-bottom: 2px; color: var(--neon-yellow); }
+  .help-item p { font-size: .88rem; line-height: 1.4; opacity: .92; }
+  .help-close {
+    display: block; width: 100%;
+    margin-top: 14px;
+    border: 2px solid #fff;
+    border-radius: 999px;
+    padding: 12px;
+    font-family: inherit; font-weight: 900; font-size: 1rem;
+    cursor: pointer;
+    background: linear-gradient(120deg, var(--neon-pink), var(--neon-purple));
+    color: #fff;
+  }
+  .help-close:active { transform: scale(.97); }
+</style>
+</head>
+<body>
+
+<div id="emojis"></div>
+<div id="flash"></div>
+
+<div class="header">
+  <h1>🤯 BRAINROT BOARD 9000 🤯</h1>
+  <div class="tagline">⚠️ MAXIMUM+ CHAOS EDITION ⚠️</div>
+  <div class="sub">😎 24 cursed pads... hold 2 machine-gun... FEEL THE ULTIMATE AURA 🧠💀🔥</div>
+</div>
+
+<div class="toolbar">
+  <button class="btn big red" id="chaosBtn">🚨 MAX CHAOS</button>
+  <button class="btn big green" id="pitchBtn">🎚️ NORMAL</button>
+  <button class="btn red" id="wallBtn">💣 WALL OF NOISE</button>
+  <button class="btn purple" id="bassBtn">🔊 BASS BOMB</button>
+  <button class="btn cyan" id="randomBtn">🎲 RANDOM</button>
+  <button class="btn pink" id="sandwichBtn">🥪 SANDWICH</button>
+  <button class="btn" id="stopBtn">🛑 STOP</button>
+  <button class="help-btn" id="helpBtn" title="What do these do?">❓</button>
+</div>
+
+<div class="cats" id="cats"></div>
+
+<div id="chaos">CHAOS⚠️LEVEL: <b id="chaosCount">0</b> 🔥 &nbsp;&nbsp; AURA: <span id="auraVal">0</span> ✨</div>
+<div class="grid" id="grid"></div>
+
+<div id="now">▶️ NOW PLAYING</div>
+
+<footer>24 sounds from myinstants // 100% certified brainrot // hold a pad to machine-gun 💀🔥🎧</footer>
+
+<!-- ===== HELP MODAL ===== -->
+<div class="help-overlay" id="helpOverlay">
+  <div class="help-box">
+    <h2>❓ What do these do?</h2>
+    <div class="help-sub">plain english edition, zero brainrot to decode. tap a sound to play it.</div>
+
+    <div class="help-item">
+      <div class="hl">🎚️</div>
+      <div><b>NORMAL / SPED-UP</b><p>Makes every sound play at normal speed, or all squeaky and fast like a chipmunk on crack. Tap it to switch back and forth.</p></div>
+    </div>
+
+    <div class="help-item">
+      <div class="hl">💣</div>
+      <div><b>WALL OF NOISE</b><p>Plays ALL 24 sounds at the exact same time. Pure chaos. Do not do this near your parents.</p></div>
+    </div>
+
+    <div class="help-item">
+      <div class="hl">🔊</div>
+      <div><b>BASS BOMB</b><p>A huge deep bass drop that shakes the whole screen. Sounds like a subwoofer exploding. Feel it in your chest.</p></div>
+    </div>
+
+    <div class="help-item">
+      <div class="hl">🎲</div>
+      <div><b>RANDOM</b><p>Picks a random sound and plays it. Like rolling dice but for your eardrums. You never know what you're gonna get.</p></div>
+    </div>
+
+    <div class="help-item">
+      <div class="hl">🥪</div>
+      <div><b>SANDWICH</b><p>Stacks a bunch of sounds on top of each other like a sandwich. Layers of pure brainrot. Bread, meat, more chaos.</p></div>
+    </div>
+
+    <div class="help-item">
+      <div class="hl">🛑</div>
+      <div><b>STOP</b><p>Makes EVERYTHING shut up. Stops every sound that's playing and resets the chaos level. The "mom walked into the room" button.</p></div>
+    </div>
+
+    <div class="help-item">
+      <div class="hl">🚨</div>
+      <div><b>MAX CHAOS</b><p>Auto-plays random sounds non-stop, ramps up to all of them at once, and goes full rainbow insanity. Tap it again to turn it off, or hit STOP.</p></div>
+    </div>
+
+    <button class="help-close" id="helpClose">👍 got it, i'm a pro now</button>
+  </div>
+</div>
+
+<script>
+/* ============================================================
+   BRAINROT BOARD 9000 - MAXIMUM+ CHAOS EDITION
+   24 real meme sounds from MyInstants.
+   Every sound falls back to a WebAudio synth if offline.
+   Hold a pad / key to machine-gun it. Go absolutely ballistic.
+   ============================================================ */
+
+const BASE = 'https://www.myinstants.com/media/sounds/';
+
+// name, file, emoji, color, synth, category
+const SOUNDS = [
+  ['VINE BOOM',      'vine-boom.mp3',                      '💥', 0, 'boom', 'MEMES'],
+  ['BRUH',           'movie_1.mp3',                        '😐', 1, 'bruh', 'MEMES'],
+  ['FART',           'dry-fart.mp3',                       '💨', 2, 'fart', 'BODILY'],
+  ['FART BUTTON',    'perfect-fart.mp3',                   '🪨', 6, 'fart', 'BODILY'],
+  ['RIZZ',           'rizz-sound-effect.mp3',              '😎', 5, 'rizz', 'VIBES'],
+  ['ANIME WOW',      'anime-wow-sound-effect.mp3',         '😱', 3, 'wow', 'VIBES'],
+  ['SPONGEBOB FAIL', 'spongebob-fail.mp3',                 '🧽', 8, 'fail', 'MEMES'],
+  ['BONE CRACK',     'bone-crack.mp3',                     '🦴', 9, 'crack', 'BODILY'],
+  ['AMONG US',       'among-us-role-reveal-sound.mp3',     '🟥', 1, 'among', 'ICONIC'],
+  ['BASS DROP',      'bass-boost-drop.mp3',                '🔊', 5, 'bass', 'ICONIC'],
+  ['APPLE PAY',      'applepay.mp3',                       '💳', 8, 'cha-ching', 'ICONIC'],
+  ['VINE BOOM HQ',   'vine-boom-hq-longer.mp3',            '💣', 0, 'boom', 'MEMES'],
+  ['WILHELM',        'wilhelmscream.mp3',                  '📢', 4, 'scream', 'SCREAM'],
+  ['WILHELM GS',     'wilhelm-scream-gaming-sound-effect-hd.mp3', '🎮', 4, 'scream', 'SCREAM'],
+  ['CARTOON WILHELM','cartoon-wilhelm-scream.mp3',         '🐀', 7, 'scream', 'SCREAM'],
+  ['METAL PIPE',     'metal-pipe-falling-sound-effect.mp3','🏗️', 7, 'pipe', 'CLANG'],
+  ['PIPE GO BONK',   'metal-pipe-go-bonk.mp3',             '🧱', 7, 'pipe', 'CLANG'],
+  ['GOOFY PIPE',     'goofy-metal-pipe-falling.mp3',       '🤡', 7, 'pipe', 'CLANG'],
+  ['XP ERROR',       'windows-xp-error-sound.mp3',         '🖥️', 4, 'error', 'SYSTEM'],
+  ['WIN10 ERROR',    'windows-10-error-sound.mp3',         '💻', 4, 'error', 'SYSTEM'],
+  ['ERROR REMIX',    'windows_error_remix-mp3cut.mp3',     '⚙️', 4, 'error', 'SYSTEM'],
+  ['EARPAIN BOOM',   'vine-boom-and-or-thud-but-you-die-from-ear-pain_wzP1skh.mp3', '💢', 0, 'boom', 'SCREAM'],
+];
+
+const ALL_SOUNDS = SOUNDS.map(s => ({ name: s[0], file: s[1], emoji: s[2], color: s[3], synth: s[4], cat: s[5] }));
+
+const grid = document.getElementById('grid');
+const cats = document.getElementById('cats');
+const now = document.getElementById('now');
+const emojis = document.getElementById('emojis');
+const flash = document.getElementById('flash');
+const chaosCount = document.getElementById('chaosCount');
+const auraVal = document.getElementById('auraVal');
+
+let chaos = 0;
+let aura = 0;
+let chaosMode = false;
+let pitchMode = 1; // 1 = normal, 2 = SPED UP
+let chaosTimer = null;
+let currentCat = 'ALL';
+let hits = new Array(ALL_SOUNDS.length).fill(0);
+
+const POP_TEXT = ['SIGMA!','AURA+100','NO CAP','L+RATIO','💀💀','SKIBIDI','FANUM TAX','OHIOSAMA','W RIZZ','BRAINROT','LETS GOOO','MOGS','TOO COLD','BUSSIN','💯💯💯'];
+const EMOJI_RAIN = ['💀','🔥','🧠','😭','🤣','💀','💅','✨','🍆','🫠','😎','🦅','🏃','💯','🙏','😩','🤌','🪩','🍋','💥','🎉'];
+
+/* ---------------- EMOJI RAIN ---------------- */
+function spawnEmoji() {
+  const e = document.createElement('div');
+  e.className = 'float-emoji';
+  e.textContent = EMOJI_RAIN[Math.floor(Math.random()*EMOJI_RAIN.length)];
+  e.style.left = Math.random()*100 + 'vw';
+  e.style.fontSize = (18 + Math.random()*44) + 'px';
+  e.style.animationDuration = (5 + Math.random()*7) + 's';
+  emojis.appendChild(e);
+  e.addEventListener('animationend', () => e.remove());
+}
+for (let i = 0; i < 40; i++) spawnEmoji();
+setInterval(() => { if (emojis.children.length < 60) spawnEmoji(); }, 350);
+
+/* ---------------- POP COMBO TEXT ---------------- */
+function spawnPop(x, y) {
+  const p = document.createElement('div');
+  p.className = 'pop';
+  p.textContent = POP_TEXT[Math.floor(Math.random()*POP_TEXT.length)];
+  const c = ['#ff2ec4','#00ffff','#ffee00','#39ff14','#ff9100','#a020f0'][Math.floor(Math.random()*6)];
+  p.style.color = c;
+  p.style.left = x + 'px';
+  p.style.top = y + 'px';
+  document.body.appendChild(p);
+  setTimeout(() => p.remove(), 1000);
+}
+
+/* ---------------- RENDER PADS ---------------- */
+function render() {
+  grid.innerHTML = '';
+  const list = ALL_SOUNDS.filter(s => currentCat === 'ALL' || s.cat === currentCat);
+  list.forEach((s, idx) => {
+    const realIdx = ALL_SOUNDS.findIndex(x => x.name === s.name);
+    const pad = document.createElement('div');
+    pad.className = 'pad c' + s.color;
+    pad.innerHTML = `<span class="emoji">${s.emoji}</span><span class="name">${s.name}</span><span class="key">${KEY_LABEL(idx)}</span><span class="hits" id="hits-${realIdx}">${hits[realIdx] || 0}</span>`;
+    pad.addEventListener('click', e => { play(realIdx); spawnPop(e.clientX, e.clientY); });
+    // machine-gun on hold
+    let holdTimer = null, firing = null;
+    pad.addEventListener('mousedown', e => {
+      holdTimer = setTimeout(() => {
+        firing = setInterval(() => { play(realIdx); spawnPop(e.clientX, e.clientY); }, 110);
+      }, 380);
+    });
+    ['mouseup','mouseleave'].forEach(ev => pad.addEventListener(ev, () => {
+      clearTimeout(holdTimer); if (firing) clearInterval(firing); firing = null;
+    }));
+    grid.appendChild(pad);
+  });
+}
+function KEY_LABEL(i) {
+  const keys = ['Q','W','E','R','T','Y','U','I','O','P','A','S','D','F','G','H','J','K','L','Z','X','C','V','B'];
+  return keys[i % keys.length];
+}
+
+/* ---------------- CATEGORIES ---------------- */
+function buildCat() {
+  cats.innerHTML = '<button class="cat on" data-c="ALL">♾️ ALL</button>';
+  ['MEMES','BODILY','VIBES','ICONIC','SCREAM','CLANG','SYSTEM'].forEach(c => {
+    const b = document.createElement('button');
+    b.className = 'cat'; b.dataset.c = c; b.textContent = c;
+    cats.appendChild(b);
+  });
+  cats.querySelectorAll('.cat').forEach(b => {
+    b.addEventListener('click', () => {
+      currentCat = b.dataset.c;
+      cats.querySelectorAll('.cat').forEach(x => x.classList.toggle('on', x === b));
+      render();
+    });
+  });
+}
+
+/* ---------------- AUDIO ENGINE ---------------- */
+// Registry of every live thing that can make sound, so STOP silences it all:
+//   - audioEls: hardware <Audio> element playback
+//   - wasources: WebAudio oscillator / bufferSource nodes (synth + bass bomb)
+const audioEls = new Set();
+const wasources = new Set();
+let stopped = false;
+
+let audioCtx = null;
+function ctx() {
+  if (!audioCtx) {
+    const raw = new (window.AudioContext || window.webkitAudioContext)();
+    // Proxy the context so every source node we create is auto-registered,
+    // no matter which synth branch made it.
+    audioCtx = new Proxy(raw, {
+      get(target, prop) {
+        const v = target[prop];
+        if (typeof v !== 'function') return v;
+        return (...args) => {
+          const node = v.apply(target, args);
+          if (prop === 'createOscillator' || prop === 'createBufferSource') {
+            wasources.add(node);
+            // free it up when it finishes naturally
+            try { node.addEventListener('ended', () => wasources.delete(node)); } catch (e) {}
+          }
+          return node;
+        };
+      }
+    });
+  }
+  if (audioCtx.state === 'suspended') audioCtx.resume();
+  return audioCtx;
+}
+
+function play(idx) {
+  const s = ALL_SOUNDS[idx];
+  ctx();
+  stopped = false;
+  const a = new Audio(BASE + s.file);
+  a.preload = 'auto';
+  a.playbackRate = pitchMode;
+  a.preservesPitch = false;
+  audioEls.add(a);
+  a.addEventListener('ended', () => audioEls.delete(a));
+  a.addEventListener('pause', () => audioEls.delete(a));
+  a.addEventListener('canplaythrough', () => { if (!stopped) a.play().catch(() => synth(s.synth)); });
+  a.addEventListener('error', () => synth(s.synth));
+  setTimeout(() => { if (!stopped && a.readyState < 2) synth(s.synth); }, 1500);
+  a.play().catch(() => synth(s.synth));
+  a.volume = 1;
+
+  bouncePad(idx);
+  hits[idx]++;
+  const h = document.getElementById('hits-' + idx);
+  if (h) h.textContent = hits[idx];
+  showNow(s.name);
+
+  aura += 5 + Math.floor(Math.random()*20);
+  auraVal.textContent = aura;
+
+  if (!chaosMode) {
+    chaos++;
+    chaosCount.textContent = chaos;
+  }
+  if (chaos > 8 && !chaosMode) enableChaos();
+  if (chaosMode) {
+    flash.style.display = 'block';
+    setTimeout(() => flash.style.display = 'none', 130);
+  }
+  document.body.classList.remove('shaking');
+  void document.body.offsetWidth;
+  document.body.classList.add('shaking');
+  if (chaosMode) {
+    document.body.classList.remove('mega-shake');
+    void document.body.offsetWidth;
+    document.body.classList.add('mega-shake');
+  }
+}
+
+function bouncePad(idx) {
+  const pads = grid.querySelectorAll('.pad');
+  const list = ALL_SOUNDS.filter(x => currentCat === 'ALL' || x.cat === currentCat);
+  const pos = list.findIndex(x => x.name === ALL_SOUNDS[idx].name);
+  if (pads[pos]) { pads[pos].classList.remove('flash'); void pads[pos].offsetWidth; pads[pos].classList.add('flash'); }
+}
+function showNow(t) { now.textContent = '▶️ ' + t + ' 💀'; now.classList.add('show'); clearTimeout(showNow._t); showNow._t = setTimeout(() => now.classList.remove('show'), 900); }
+
+/* ---------------- CHAOS / TOOLBAR ---------------- */
+function enableChaos() {
+  chaosMode = true;
+  document.getElementById('chaosBtn').textContent = '🚨 CHAOS ACTIVE';
+  document.getElementById('chaosBtn').classList.add('on');
+  document.body.classList.add('hyper');
+  chaosTimer = setInterval(() => {
+    const r = Math.floor(Math.random()*ALL_SOUNDS.length);
+    playRandomSound(r);
+    // occasionally speech the wall
+    if (Math.random() < .15) { for (let i=0;i<ALL_SOUNDS.length;i++) playRandomSound(i); }
+  }, 340);
+}
+function playRandomSound(idx) {
+  const s = ALL_SOUNDS[idx];
+  ctx();
+  const a = new Audio(BASE + s.file);
+  a.playbackRate = pitchMode; a.preservesPitch=false;
+  audioEls.add(a);
+  a.addEventListener('ended', () => audioEls.delete(a));
+  a.addEventListener('pause', () => audioEls.delete(a));
+  a.play().catch(() => synth(s.synth));
+  a.volume = .5 + Math.random()*.4;
+  bouncePad(idx);
+  hits[idx]++; const h = document.getElementById('hits-'+idx); if (h) h.textContent = hits[idx];
+}
+function disableChaos() {
+  chaosMode = false;
+  clearInterval(chaosTimer);
+  document.getElementById('chaosBtn').textContent = '🚨 MAX CHAOS';
+  document.getElementById('chaosBtn').classList.remove('on');
+  document.body.classList.remove('hyper');
+}
+function stopAll() {
+  disableChaos();
+  stopped = true;
+  // stop all hardware <Audio> playback
+  audioEls.forEach(a => { try { a.pause(); a.currentTime = 0; } catch(e){} });
+  audioEls.clear();
+  // stop all WebAudio sources (synth fallbacks + bass bomb)
+  wasources.forEach(n => { try { n.stop(); } catch(e){} });
+  wasources.clear();
+  chaos = 0; chaosCount.textContent = 0;
+}
+function randomPad() {
+  const list = ALL_SOUNDS.filter(s => currentCat === 'ALL' || s.cat === currentCat);
+  const s = list[Math.floor(Math.random()*list.length)];
+  const idx = ALL_SOUNDS.findIndex(x => x.name === s.name);
+  play(idx);
+}
+function sandwich() {
+  play(idxOf('BRUH'));
+  setTimeout(() => play(idxOf('VINE BOOM')), 120);
+  setTimeout(() => play(idxOf('FART')), 300);
+  setTimeout(() => play(idxOf('BASS DROP')), 450);
+  setTimeout(() => play(idxOf('WILHELM')), 600);
+  setTimeout(() => play(idxOf('METAL PIPE')), 750);
+}
+function wallOfNoise() {
+  for (let i=0;i<ALL_SOUNDS.length;i++) playRandomSound(i);
+  for (let i=0;i<6;i++) spawnEmoji();
+  document.body.classList.remove('mega-shake');
+  void document.body.offsetWidth;
+  document.body.classList.add('mega-shake');
+}
+function bassBomb() {
+  ctx();
+  const c = ctx(), t = c.currentTime;
+  const out = c.destination;
+  const g = c.createGain(); g.gain.value = 1.2; g.connect(out);
+  for (let k=0;k<3;k++) {
+    const o = c.createOscillator(); o.type='sine';
+    o.frequency.setValueAtTime(80 - k*15, t);
+    o.frequency.exponentialRampToValueAtTime(25, t+.8);
+    const og = c.createGain(); og.gain.setValueAtTime(.9, t); og.gain.exponentialRampToValueAtTime(.001, t+1);
+    o.connect(og); og.connect(g); o.start(t + k*.05); o.stop(t + 1 + k*.05);
+  }
+  play(idxOf('BASS DROP'));
+  flash.style.display='block';
+  setTimeout(()=>flash.style.display='none', 200);
+  document.body.classList.remove('mega-shake'); void document.body.offsetWidth; document.body.classList.add('mega-shake');
+}
+function idxOf(name) { return ALL_SOUNDS.findIndex(x => x.name === name); }
+
+document.getElementById('chaosBtn').addEventListener('click', () => chaosMode ? disableChaos() : enableChaos());
+document.getElementById('pitchBtn').addEventListener('click', () => {
+  pitchMode = pitchMode === 1 ? 2 : 1;
+  document.getElementById('pitchBtn').textContent = pitchMode === 1 ? '🎚️ NORMAL' : '🎚️ SPED-UP 🏃';
+  document.getElementById('pitchBtn').classList.toggle('on', pitchMode === 2);
+});
+document.getElementById('wallBtn').addEventListener('click', wallOfNoise);
+document.getElementById('bassBtn').addEventListener('click', bassBomb);
+document.getElementById('randomBtn').addEventListener('click', randomPad);
+document.getElementById('sandwichBtn').addEventListener('click', sandwich);
+document.getElementById('stopBtn').addEventListener('click', stopAll);
+
+/* ---------------- HELP MODAL ---------------- */
+const helpOverlay = document.getElementById('helpOverlay');
+function openHelp() { helpOverlay.classList.add('show'); }
+function closeHelp() { helpOverlay.classList.remove('show'); }
+document.getElementById('helpBtn').addEventListener('click', openHelp);
+document.getElementById('helpClose').addEventListener('click', closeHelp);
+helpOverlay.addEventListener('click', e => { if (e.target === helpOverlay) closeHelp(); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeHelp(); });
+
+/* ---------------- KEYBOARD ---------------- */
+const KEYMAP = { Q:0,W:1,E:2,R:3,T:4,Y:5,U:6,I:7,O:8,P:9,A:10,S:11,D:12,F:13,G:14,H:15,J:16,K:17,L:18,Z:19,X:20,C:21,V:22,B:23 };
+document.addEventListener('keydown', e => {
+  if (e.repeat) return;
+  const k = e.key.toUpperCase();
+  if (KEYMAP[k] !== undefined) { play(KEYMAP[k]); const r = Math.random()*80; spawnPop(r, 420); }
+});
+
+/* ---------------- WEB AUDIO SYNTH FALLBACKS ---------------- */
+function synth(kind) {
+  const c = ctx();
+  const t = c.currentTime;
+  const out = c.destination;
+  const master = c.createGain(); master.gain.value = .5; master.connect(out);
+  const dist = c.createWaveShaper();
+  const curve = new Float32Array(256); for (let i=0;i<256;i++){const x=i/128-1; curve[i]=Math.tanh(3*x);} dist.curve=curve;
+  master.connect(dist); dist.connect(out);
+
+  if (kind === 'boom' || kind === 'bass') {
+    const o = c.createOscillator(); o.type='sine';
+    o.frequency.setValueAtTime(120, t); o.frequency.exponentialRampToValueAtTime(30, t+.4);
+    const g = c.createGain(); g.gain.setValueAtTime(.9,t); g.gain.exponentialRampToValueAtTime(.001, t+.5);
+    o.connect(g); g.connect(master); o.start(t); o.stop(t+.6);
+    const no = c.createOscillator(); no.type='sawtooth'; no.frequency.value=60;
+    const ng=c.createGain(); ng.gain.setValueAtTime(.4,t); ng.gain.exponentialRampToValueAtTime(.001,t+.3);
+    no.connect(ng); ng.connect(dist); no.start(t); no.stop(t+.4);
+  }
+  if (kind === 'bruh' || kind === 'wow' || kind === 'rizz') {
+    [440,660,880].forEach((f,i)=>{ const o=c.createOscillator(); o.type='sawtooth'; o.frequency.setValueAtTime(f,t+i*.06); const g=c.createGain(); g.gain.setValueAtTime(.001,t+i*.05); g.gain.linearRampToValueAtTime(.4,t+i*.06); g.gain.exponentialRampToValueAtTime(.001,t+i*.06+.4); o.connect(g); g.connect(dist); o.start(t+i*.05); o.stop(t+i*.06+.45); });
+  }
+  if (kind === 'fart') {
+    const lfo = c.createOscillator(); lfo.frequency.value = 18;
+    const o = c.createOscillator(); o.type='sawtooth'; o.frequency.value=110;
+    const g = c.createGain(); g.gain.setValueAtTime(.8,t); g.gain.exponentialRampToValueAtTime(.001,t+1.2);
+    lfo.connect(g.gain); o.connect(g); g.connect(dist);
+    o.start(t); o.stop(t+1.3); lfo.start(t); lfo.stop(t+1.3);
+    for(let i=0;i<4;i++){ const b=c.createOscillator(); b.type='sine'; b.frequency.setValueAtTime(80+Math.random()*40, t+i*.3); b.frequency.linearRampToValueAtTime(40, t+i*.3+.2); const bg=c.createGain(); bg.gain.setValueAtTime(.001,t+i*.3); bg.gain.linearRampToValueAtTime(.5,t+i*.3+.03); bg.gain.exponentialRampToValueAtTime(.001,t+i*.3+.25); b.connect(bg); bg.connect(dist); b.start(t+i*.3); b.stop(t+i*.3+.3); }
+  }
+  if (kind === 'fail') {
+    const o=c.createOscillator(); o.type='square'; o.frequency.setValueAtTime(392,t); o.frequency.setValueAtTime(330,t+.25); o.frequency.setValueAtTime(262,t+.5); o.frequency.setValueAtTime(196,t+.75);
+    const g=c.createGain(); g.gain.setValueAtTime(.35,t); g.gain.linearRampToValueAtTime(.001,t+1.2);
+    o.connect(g); g.connect(dist); o.start(t); o.stop(t+1.2);
+  }
+  if (kind === 'crack') {
+    const d=(function(){const b=c.createBuffer(1, c.sampleRate*.2, c.sampleRate);const x=b.getChannelData(0);for(let i=0;i<x.length;i++) x[i]=(Math.random()*2-1)*Math.pow(1-i/x.length,2)*2;return b;})();
+    const src=c.createBufferSource(); src.buffer=d; const g=c.createGain(); g.gain.value=1; src.connect(g); g.connect(dist); src.start(t);
+  }
+  if (kind === 'among') {
+    [392,523,659,784].forEach((f,i)=>{ const o=c.createOscillator(); o.type='triangle'; o.frequency.value=f; const g=c.createGain(); g.gain.setValueAtTime(.001,t+i*.18); g.gain.linearRampToValueAtTime(.4,t+i*.18+.02); g.gain.exponentialRampToValueAtTime(.001,t+i*.18+.5); o.connect(g); g.connect(dist); o.start(t+i*.18); o.stop(t+i*.18+.55); });
+  }
+  if (kind === 'cha-ching') {
+    [2093,2637,3136].forEach((f,i)=>{ const o=c.createOscillator(); o.type='sine'; o.frequency.value=f; const g=c.createGain(); g.gain.setValueAtTime(.001,t+i*.12); g.gain.linearRampToValueAtTime(.3,t+i*.12+.02); g.gain.exponentialRampToValueAtTime(.001,t+i*.12+.8); o.connect(g); g.connect(dist); o.start(t+i*.12); o.stop(t+i*.12+.9); });
+  }
+  if (kind === 'scream') {
+    const o=c.createOscillator(); o.type='sawtooth'; o.frequency.setValueAtTime(900,t); o.frequency.exponentialRampToValueAtTime(1800,t+.3); o.frequency.exponentialRampToValueAtTime(300,t+.9);
+    const g=c.createGain(); g.gain.setValueAtTime(.5,t); g.gain.exponentialRampToValueAtTime(.001,t+1);
+    o.connect(g); g.connect(dist); o.start(t); o.stop(t+1.1);
+    const o2=c.createOscillator(); o2.type='square'; o2.frequency.setValueAtTime(1600,t); o2.frequency.exponentialRampToValueAtTime(500,t+.8);
+    const g2=c.createGain(); g2.gain.setValueAtTime(.3,t); g2.gain.exponentialRampToValueAtTime(.001,t+.9);
+    o2.connect(g2); g2.connect(dist); o2.start(t); o2.stop(t+1);
+  }
+  if (kind === 'pipe') {
+    const d=(function(){const b=c.createBuffer(1, c.sampleRate*.6, c.sampleRate);const x=b.getChannelData(0);for(let i=0;i<x.length;i++){const env=Math.pow(1-i/x.length,3);x[i]=(Math.sin(2*Math.PI*180*i/c.sampleRate)*.5 + Math.sin(2*Math.PI*720*i/c.sampleRate)*.2 + (Math.random()*2-1)*.4)*env;}return b;})();
+    const src=c.createBufferSource(); src.buffer=d; const g=c.createGain(); g.gain.value=1; src.connect(g); g.connect(dist); src.start(t);
+  }
+  if (kind === 'error') {
+    [440,660,880].forEach((f,i)=>{ const o=c.createOscillator(); o.type='square'; o.frequency.value=f; const g=c.createGain(); g.gain.setValueAtTime(.001,t+i*.15); g.gain.linearRampToValueAtTime(.35,t+i*.15+.03); g.gain.setValueAtTime(.35,t+i*.15+.25); g.gain.exponentialRampToValueAtTime(.001,t+i*.15+.4); o.connect(g); g.connect(dist); o.start(t+i*.15); o.stop(t+i*.15+.5); });
+  }
+}
+
+/* ---------------- INIT ---------------- */
+buildCat();
+render();
+</script>
+</body>
+</html>
