@@ -234,7 +234,6 @@
   @keyframes padFlash { 0%{transform:scale(1) rotate(0);} 40%{transform:scale(1.18) rotate(4deg);} 100%{transform:scale(1) rotate(0);} }
   .pad .emoji { font-size: 2.6rem; filter: drop-shadow(0 0 7px rgba(255,255,255,.95)); }
   .pad .name { font-size: .76rem; font-weight: 900; text-transform: uppercase; letter-spacing: .5px; text-shadow: 0 2px 3px rgba(0,0,0,.85); line-height: 1.1; }
-  .pad .key { position:absolute; top:6px; left:9px; font-size:.7rem; opacity:.85; background:rgba(0,0,0,.4); padding:2px 6px; border-radius:6px; }
   .pad .hits { position:absolute; top:6px; right:9px; font-size:.72rem; font-weight:800; opacity:.9; }
 
   /* rainbow pad colors */
@@ -416,6 +415,7 @@
   <button class="btn cyan" id="randomBtn">🎲 RANDOM</button>
   <button class="btn pink" id="sandwichBtn">🥪 SANDWICH</button>
   <button class="btn" id="stopBtn">🛑 STOP</button>
+  <button class="btn yellow" id="resetBtn">🔄 RESET</button>
   <button class="help-btn" id="helpBtn" title="What do these do?">❓</button>
 </div>
 
@@ -462,6 +462,11 @@
     <div class="help-item">
       <div class="hl">🛑</div>
       <div><b>STOP</b><p>Makes EVERYTHING shut up. Stops every sound that's playing and resets the chaos level. The "mom walked into the room" button.</p></div>
+    </div>
+
+    <div class="help-item">
+      <div class="hl">🔄</div>
+      <div><b>RESET</b><p>Full factory reset. Stops all sound AND wipes every counter back to zero — hit counts, aura, chaos, and pitch back to normal. Turn the board back to brand new.</p></div>
     </div>
 
     <div class="help-item">
@@ -547,12 +552,6 @@ const SOUNDS = [
 
 const ALL_SOUNDS = SOUNDS.map(s => ({ name: s[0], file: s[1], emoji: s[2], color: s[3], synth: s[4], cat: s[5] }));
 
-// Keyboard shortcuts: every sound gets a key. When there are more sounds
-// than keys, keys start repeating (2nd letter = same key on the next board).
-const KEYS = ['Q','W','E','R','T','Y','U','I','O','P','A','S','D','F','G','H','J','K','L','Z','X','C','V','B','N','M','1','2','3','4','5'];
-const KEYMAP = {};
-KEYS.forEach((k, i) => { KEYMAP[k] = i; });
-
 const grid = document.getElementById('grid');
 const cats = document.getElementById('cats');
 const now = document.getElementById('now');
@@ -603,11 +602,11 @@ function spawnPop(x, y) {
 function render() {
   grid.innerHTML = '';
   const list = ALL_SOUNDS.filter(s => currentCat === 'ALL' || s.cat === currentCat);
-  list.forEach((s, idx) => {
+  list.forEach((s) => {
     const realIdx = ALL_SOUNDS.findIndex(x => x.name === s.name);
     const pad = document.createElement('div');
     pad.className = 'pad c' + s.color;
-    pad.innerHTML = `<span class="emoji">${s.emoji}</span><span class="name">${s.name}</span><span class="key">${KEY_LABEL(idx)}</span><span class="hits" id="hits-${realIdx}">${hits[realIdx] || 0}</span>`;
+    pad.innerHTML = `<span class="emoji">${s.emoji}</span><span class="name">${s.name}</span><span class="hits" id="hits-${realIdx}">${hits[realIdx] || 0}</span>`;
     pad.addEventListener('click', e => {
       // if a long-hold just machine-gunned this pad, skip the tap that
       // fires right after the touch/mouse release
@@ -644,9 +643,6 @@ function render() {
     pad.addEventListener('lostpointercapture', stopHold);
     grid.appendChild(pad);
   });
-}
-function KEY_LABEL(i) {
-  return i < KEYS.length ? KEYS[i] : '';
 }
 
 /* ---------------- CATEGORIES ---------------- */
@@ -810,6 +806,18 @@ function stopAll() {
   wasources.clear();
   chaos = 0; chaosCount.textContent = 0;
 }
+// Full factory reset: silence everything, clear counters, and reset the board.
+function resetAll() {
+  stopAll();                       // silences all audio + turns off MAX CHAOS
+  pitchMode = 1;                   // back to NORMAL speed
+  document.getElementById('pitchBtn').textContent = '🎚️ NORMAL';
+  document.getElementById('pitchBtn').classList.remove('on');
+  aura = 0; auraVal.textContent = 0;
+  hits = new Array(ALL_SOUNDS.length).fill(0);
+  currentCat = 'ALL';              // show everything again
+  cats.querySelectorAll('.cat').forEach(b => b.classList.toggle('on', b.dataset.c === 'ALL'));
+  render();
+}
 function randomPad() {
   const list = ALL_SOUNDS.filter(s => currentCat === 'ALL' || s.cat === currentCat);
   const s = list[Math.floor(Math.random()*list.length)];
@@ -861,6 +869,7 @@ document.getElementById('bassBtn').addEventListener('click', bassBomb);
 document.getElementById('randomBtn').addEventListener('click', randomPad);
 document.getElementById('sandwichBtn').addEventListener('click', sandwich);
 document.getElementById('stopBtn').addEventListener('click', stopAll);
+document.getElementById('resetBtn').addEventListener('click', resetAll);
 
 /* ---------------- HELP MODAL ---------------- */
 const helpOverlay = document.getElementById('helpOverlay');
@@ -870,13 +879,6 @@ document.getElementById('helpBtn').addEventListener('click', openHelp);
 document.getElementById('helpClose').addEventListener('click', closeHelp);
 helpOverlay.addEventListener('click', e => { if (e.target === helpOverlay) closeHelp(); });
 document.addEventListener('keydown', e => { if (e.key === 'Escape') closeHelp(); });
-
-/* ---------------- KEYBOARD ---------------- */
-document.addEventListener('keydown', e => {
-  if (e.repeat) return;
-  const k = e.key.toUpperCase();
-  if (KEYMAP[k] !== undefined) { play(KEYMAP[k]); const r = Math.random()*80; spawnPop(r, 420); }
-});
 
 /* ---------------- WEB AUDIO SYNTH FALLBACKS ---------------- */
 function synth(kind) {
