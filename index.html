@@ -116,17 +116,19 @@
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
+    animation: rainbowFlow 1.2s linear infinite;
     text-shadow: 0 0 34px rgba(255,46,196,.7);
     filter: drop-shadow(0 0 12px rgba(0,255,255,.6));
   }
+  @keyframes rainbowFlow { 0% {background-position: 0% 0;} 100% {background-position: 300% 0;} }
 
   .tagline {
     font-size: clamp(.95rem, 3.5vw, 1.4rem);
     margin-top: 4px;
+    animation: blink .5s steps(2) infinite;
     text-transform: uppercase;
     font-weight: 900;
   }
-  .tagline.flashline { animation: blink .5s steps(2) infinite; }
   @keyframes blink { 50% { opacity: .05; } }
 
   .sub {
