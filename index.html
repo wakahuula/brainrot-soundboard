@@ -426,7 +426,7 @@
 
 <div id="now">▶️ NOW PLAYING</div>
 
-<footer>44 sounds from myinstants // 100% certified brainrot // hold a pad to machine-gun 💀🔥🎧 <br><a href="https://kosta.lol" target="_blank" rel="noopener">🐐 made by kosta · kosta.lol</a></footer>
+<footer>56 sounds from myinstants // 100% certified brainrot // hold a pad to machine-gun 💀🔥🎧 <br><a href="https://kosta.lol" target="_blank" rel="noopener">🐐 made by kosta · kosta.lol</a></footer>
 
 <!-- ===== HELP MODAL ===== -->
 <div class="help-overlay" id="helpOverlay">
@@ -476,7 +476,7 @@
 <script>
 /* ============================================================
    BRAINROT BOARD 9000 - MAXIMUM+ CHAOS EDITION
-   44 real meme sounds from MyInstants.
+   56 real meme sounds from MyInstants.
    Every sound falls back to a WebAudio synth if offline.
    Hold a pad / key to machine-gun it. Go absolutely ballistic.
    ============================================================ */
@@ -530,6 +530,19 @@ const SOUNDS = [
   ['WHAT DA DOG',    'what-the-dog-doing.mp3',             '🐕', 9, 'wow', 'MEMES'],
   ['BONK',           'bonk.mp3',                           '🏏', 7, 'pipe', 'MEMES'],
   ['DISCORD PING',   'discord-notification.mp3',           '💬', 8, 'cha-ching', 'SYSTEM'],
+  // ---- THE BRAINROT WAVE — 12 more certified bangers ----
+  ['SKIBIDI TOILET', 'skibidi-toilet.mp3',                 '🚽', 5, 'wow', 'MEMES'],
+  ['GYATT',          'gyatt.mp3',                          '🍑', 8, 'rizz', 'MEMES'],
+  ['SIGMA',          'sigma.mp3',                          '💪', 9, 'rizz', 'MEMES'],
+  ['RIZZLER',        'rizzler.mp3',                        '🫰', 5, 'rizz', 'VIBES'],
+  ['OHIO',           'ohio.mp3',                           '🏚️', 6, 'boom', 'MEMES'],
+  ['BRAINROT',       'brainrot.mp3',                       '🧠', 0, 'wow', 'MEMES'],
+  ['MEWING',         'mewing.mp3',                         '🤫', 1, 'fail', 'MEMES'],
+  ['SIDE EYE',       'bombastic-side-eye.mp3',             '👀', 6, 'wow', 'MEMES'],
+  ['SUBWAY SURFERS', 'subway-surfers.mp3',                 '🎮', 2, 'wow', 'GAMER'],
+  ['MARIO COIN',     'mario-coin.mp3',                     '🪙', 7, 'cha-ching', 'GAMER'],
+  ['ANOTHER ONE',    'another-one.mp3',                    '🎤', 3, 'rizz', 'ICONIC'],
+  ['ROASTED',        'boom-roasted.mp3',                   '🔥', 2, 'boom', 'ICONIC'],
 ];
 
 const ALL_SOUNDS = SOUNDS.map(s => ({ name: s[0], file: s[1], emoji: s[2], color: s[3], synth: s[4], cat: s[5] }));
@@ -610,8 +623,13 @@ function render() {
       held = false;
       holdTimer = setTimeout(() => {
         held = true;
-        play(realIdx);
-        firing = setInterval(() => { play(realIdx); spawnPop(x, y); }, 110);
+        // fire repeatedly, but only start the NEXT sound once the previous
+        // one has finished — so holding replays it consecutively, never stacked
+        const tick = () => {
+          if (!isPlaying(realIdx)) { play(realIdx); spawnPop(x, y); }
+        };
+        tick();
+        firing = setInterval(tick, 100);
       }, 380);
     };
     const stopHold = () => {
@@ -656,6 +674,18 @@ const audioEls = new Set();
 const wasources = new Set();
 let stopped = false;
 
+// Per-sound instance counter so "hold to machine-gun" can play sounds
+// CONSECUTIVELY (start the next only after the previous one finished)
+// instead of stacking overlapping copies of the same pad.
+const activeCount = new Map();
+function noteStarted(idx) { activeCount.set(idx, (activeCount.get(idx) || 0) + 1); }
+function noteEnded(idx) {
+  const n = activeCount.get(idx) || 0;
+  if (n > 0) activeCount.set(idx, n - 1);
+  else activeCount.delete(idx);
+}
+function isPlaying(idx) { return (activeCount.get(idx) || 0) > 0; }
+
 let audioCtx = null;
 function ctx() {
   if (!audioCtx) {
@@ -691,10 +721,11 @@ function play(idx) {
   a.playbackRate = pitchMode;
   a.preservesPitch = false;
   audioEls.add(a);
-  a.addEventListener('ended', () => audioEls.delete(a));
-  a.addEventListener('pause', () => audioEls.delete(a));
+  noteStarted(idx);
+  a.addEventListener('ended', () => { audioEls.delete(a); noteEnded(idx); });
+  a.addEventListener('pause', () => { audioEls.delete(a); noteEnded(idx); });
   a.addEventListener('canplaythrough', () => { if (!stopped) a.play().catch(() => synth(s.synth)); });
-  a.addEventListener('error', () => synth(s.synth));
+  a.addEventListener('error', () => { audioEls.delete(a); noteEnded(idx); synth(s.synth); });
   setTimeout(() => { if (!stopped && a.readyState < 2) synth(s.synth); }, 1500);
   a.play().catch(() => synth(s.synth));
   a.volume = 1;
