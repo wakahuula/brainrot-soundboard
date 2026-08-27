@@ -427,7 +427,6 @@
   <button class="btn cyan" id="pauseBtn">⏸️ PAUSE</button>
   <button class="btn purple" id="echoBtn">🔊 ECHO</button>
   <button class="btn green" id="detuneBtn">🧬 DETUNE</button>
-  <button class="btn pink" id="scratchBtn">🎚️ SCRATCH</button>
   <button class="btn red" id="recBtn">🎬 REC</button>
   <label class="pitch" title="Pitch slider">🎚️ <input type="range" id="pitchSlider" min="0.4" max="2.5" step="0.05" value="1"></label>
   <button class="btn" id="stopBtn">🛑 STOP</button>
@@ -442,7 +441,7 @@
 
 <div id="now">▶️ NOW PLAYING</div>
 
-<footer>56 sounds from myinstants // 100% certified brainrot // hold a pad to machine-gun 💀🔥🎧 <br><a href="https://kosta.lol" target="_blank" rel="noopener">🐐 made by kosta · kosta.lol</a></footer>
+<footer>68 sounds from myinstants // 100% certified brainrot // hold a pad to machine-gun 💀🔥🎧 <br><a href="https://kosta.lol" target="_blank" rel="noopener">🐐 made by kosta · kosta.lol</a></footer>
 
 <!-- ===== HELP MODAL ===== -->
 <div class="help-overlay" id="helpOverlay">
@@ -502,12 +501,7 @@
 
     <div class="help-item">
       <div class="hl">🧬</div>
-      <div><b>DETUNE</b><p>Plays a second, fatter, slightly-off-key version underneath every sound. Makes it all sound deeper and weirder. Tap again for normal.</p></div>
-    </div>
-
-    <div class="help-item">
-      <div class="hl">🎚️</div>
-      <div><b>SCRATCH</b><p>Hold any pad and it stops replaying consecutively — instead it rips back and forth through the sound like a DJ scratching a record. Turn it off for normal holding.</p></div>
+      <div><b>DETUNE</b><p>Slaps a second, fatter, way-off-key version underneath every sound so the whole thing warps into deep robot weirdness. Tap again for normal.</p></div>
     </div>
 
     <div class="help-item">
@@ -594,6 +588,19 @@ const SOUNDS = [
   ['MARIO COIN',     'mario-coin.mp3',                     '🪙', 7, 'cha-ching', 'GAMER'],
   ['ANOTHER ONE',    'another-one.mp3',                    '🎤', 3, 'rizz', 'ICONIC'],
   ['ROASTED',        'boom-roasted.mp3',                   '🔥', 2, 'boom', 'ICONIC'],
+  // ---- THE HYPERVIRAL WAVE — 12 more certified bangers ----
+  ['FANUM TAX',      'fanum-tax.mp3',                      '💸', 2, 'rizz', 'MEMES'],
+  ['LET HIM COOK',   'let-him-cook.mp3',                   '👨‍🍳', 5, 'wow', 'ICONIC'],
+  ['OHIO FINAL BOSS','ohio-final-boss.mp3',                '🎮', 6, 'boom', 'MEMES'],
+  ['GIGACHAD',       'gigachad.mp3',                       '🗿', 9, 'rizz', 'ICONIC'],
+  ['W RIZZ',         'w-rizz.mp3',                         '🦃', 5, 'rizz', 'VIBES'],
+  ['CREEPER',        'creeper-hiss.mp3',                   '🧨', 3, 'among', 'GAMER'],
+  ['FUNNY LAUGH',    'evillaugh.mp3',                      '😹', 8, 'wow', 'VIBES'],
+  ['SKULL TRUMPET',  'skull-trompete.mp3',                 '🎺', 3, 'wow', 'SCREAM'],
+  ['NUCLEAR',        'nuclear-explosion.mp3',              '☢️', 0, 'boom', 'SCREAM'],
+  ['FRYING PAN',     'frying-pan-sound.mp3',               '🍳', 7, 'pipe', 'CLANG'],
+  ['GUN SHOT',       'gun-shot.mp3',                       '🔫', 7, 'pipe', 'SCREAM'],
+  ['GOT THE REF',    'i-just-got-this-reference.mp3',      '🤓', 1, 'wow', 'ICONIC'],
 ];
 
 const ALL_SOUNDS = SOUNDS.map(s => ({ name: s[0], file: s[1], emoji: s[2], color: s[3], synth: s[4], cat: s[5] }));
@@ -615,7 +622,6 @@ let detuneOn = false;        // DETUNE: play a detuned copy on top
 let echoOn = false;          // ECHO: ring out with delay/feedback
 let pauseActive = false;     // PAUSE/PLAY for global freeze
 let pausedAudios = [];       // frozen audio elements (element + where it was)
-let scratchMode = false;     // SCRATCH: drag to scratch
 let recording = false;       // RECORD mode
 let recordLog = [];          // [[timeMs, idx], ...]
 let chaosTimer = null;
@@ -675,30 +681,13 @@ function render() {
     const startHold = (x, y) => {
       clearTimeout(holdTimer); if (firing) clearInterval(firing); firing = null;
       held = false;
-      // SCRATCH MODE: drag around = seek the playing copy to random spots
-      if (scratchMode) {
-        if (!isPlaying(realIdx)) play(realIdx);
-        firing = setInterval(() => {
-          const el = __lastEl[realIdx];
-          if (el) {
-            try {
-              const d = (isFinite(el.duration) && el.duration > 0) ? el.duration : 3;
-              el.currentTime = Math.random() * d;
-              spawnPop(x, y);
-            } catch (e) {}
-          }
-        }, 90);
-        return;
-      }
       holdTimer = setTimeout(() => {
         held = true;
-        // fire repeatedly, but only start the NEXT sound once the previous
-        // one has finished — so holding replays it consecutively, never stacked
-        const tick = () => {
-          if (!isPlaying(realIdx)) { play(realIdx, true); spawnPop(x, y); }
-        };
+        // machine-gun: just keep replaying on a fixed interval, back to back,
+        // no waiting for each sound to finish
+        const tick = () => { play(realIdx, true); spawnPop(x, y); };
         tick();
-        firing = setInterval(tick, 100);
+        firing = setInterval(tick, 110);
       }, 380);
     };
     const stopHold = () => {
@@ -778,7 +767,7 @@ function ctx() {
   return audioCtx;
 }
 
-// last created element per sound index, used by SCRATCH to seek around
+// last created playback element per sound index
 const __lastEl = {};
 // Pure "make a sound, no counters" — used by play(), detune, echo and replay.
 function makeSound(idx, volume, rate) {
@@ -806,7 +795,7 @@ function play(idx, quiet) {
   stopped = false;
   makeSound(idx, 1);                    // main copy
   noteStarted(idx);
-  if (detuneOn) makeSound(idx, 0.42, pitchVal * 1.07);   // detuned twin, quieter
+  if (detuneOn) makeSound(idx, 0.6, pitchVal * 1.15);   // detuned twin, louder + more off-key
   if (echoOn) {                          // a couple of faded repeats (echo)
     [0.22, 0.44].forEach((d, i) => setTimeout(() => {
       if (!stopped && !pauseActive) makeSound(idx, 0.28 - i * 0.09, pitchVal);
@@ -853,7 +842,6 @@ function setBtnOn(id, on) {
 }
 function toggleEcho() { echoOn = !echoOn; setBtnOn('echoBtn', echoOn); }
 function toggleDetune() { detuneOn = !detuneOn; setBtnOn('detuneBtn', detuneOn); }
-function toggleScratch() { scratchMode = !scratchMode; setBtnOn('scratchBtn', scratchMode); }
 function updatePauseBtn() {
   const b = document.getElementById('pauseBtn');
   if (b) b.textContent = pauseActive ? '▶️ PLAY' : '⏸️ PAUSE';
@@ -957,8 +945,8 @@ function resetAll() {
   document.getElementById('pitchBtn').textContent = '🎚️ NORMAL';
   document.getElementById('pitchBtn').classList.remove('on');
   document.getElementById('pitchSlider').value = 1;
-  echoOn = detuneOn = scratchMode = false;
-  setBtnOn('echoBtn', false); setBtnOn('detuneBtn', false); setBtnOn('scratchBtn', false);
+  echoOn = detuneOn = false;
+  setBtnOn('echoBtn', false); setBtnOn('detuneBtn', false);
   recording = false; recordLog = [];
   document.getElementById('recBtn').textContent = '🎬 REC';
   setBtnOn('recBtn', false);
@@ -1013,7 +1001,6 @@ document.getElementById('pitchBtn').addEventListener('click', swapPitch);
 document.getElementById('pauseBtn').addEventListener('click', togglePause);
 document.getElementById('echoBtn').addEventListener('click', toggleEcho);
 document.getElementById('detuneBtn').addEventListener('click', toggleDetune);
-document.getElementById('scratchBtn').addEventListener('click', toggleScratch);
 document.getElementById('recBtn').addEventListener('click', () => {
   if (recording) { replayRecord(); toggleRec(); }
   else { toggleRec(); spawnPop(innerWidth / 2, 80); }
