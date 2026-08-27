@@ -179,6 +179,15 @@
   .btn.big   { font-size: 1.05rem; padding: 11px 20px; animation: pulseBtn .7s infinite; }
   @keyframes pulseBtn { 0%,100%{transform:scale(1);} 50%{transform:scale(1.08);} }
   .btn.on { outline: 4px solid #fff; filter: brightness(1.3) saturate(2); animation: none; }
+  .btn.blink2 { animation: padFlash .5s infinite; }
+
+  /* pitch slider inline in the toolbar */
+  .pitch {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: rgba(255,255,255,.12); border: 2px solid #fff; border-radius: 999px;
+    padding: 6px 12px; color: #fff; font-weight: 900; cursor: pointer;
+  }
+  .pitch input[type=range] { width: 90px; accent-color: var(--neon-cyan); }
 
   .cats {
     display: flex;
@@ -231,6 +240,7 @@
   }
   .pad:active { transform: translateY(5px) scale(.96) !important; }
   .pad.flash { animation: padFlash .3s; filter: brightness(2) saturate(2.5); }
+  body.chaos2 .pad { animation: padFlash .22s infinite; }
   @keyframes padFlash { 0%{transform:scale(1) rotate(0);} 40%{transform:scale(1.18) rotate(4deg);} 100%{transform:scale(1) rotate(0);} }
   .pad .emoji { font-size: 2.6rem; filter: drop-shadow(0 0 7px rgba(255,255,255,.95)); }
   .pad .name { font-size: .76rem; font-weight: 900; text-transform: uppercase; letter-spacing: .5px; text-shadow: 0 2px 3px rgba(0,0,0,.85); line-height: 1.1; }
@@ -414,6 +424,12 @@
   <button class="btn purple" id="bassBtn">🔊 BASS BOMB</button>
   <button class="btn cyan" id="randomBtn">🎲 RANDOM</button>
   <button class="btn pink" id="sandwichBtn">🥪 SANDWICH</button>
+  <button class="btn cyan" id="pauseBtn">⏸️ PAUSE</button>
+  <button class="btn purple" id="echoBtn">🔊 ECHO</button>
+  <button class="btn green" id="detuneBtn">🧬 DETUNE</button>
+  <button class="btn pink" id="scratchBtn">🎚️ SCRATCH</button>
+  <button class="btn red" id="recBtn">🎬 REC</button>
+  <label class="pitch" title="Pitch slider">🎚️ <input type="range" id="pitchSlider" min="0.4" max="2.5" step="0.05" value="1"></label>
   <button class="btn" id="stopBtn">🛑 STOP</button>
   <button class="btn yellow" id="resetBtn">🔄 RESET</button>
   <button class="help-btn" id="helpBtn" title="What do these do?">❓</button>
@@ -472,6 +488,36 @@
     <div class="help-item">
       <div class="hl">🚨</div>
       <div><b>MAX CHAOS</b><p>Auto-plays random sounds non-stop, ramps up to all of them at once, and goes full rainbow insanity. Tap it again to turn it off, or hit STOP.</p></div>
+    </div>
+
+    <div class="help-item">
+      <div class="hl">⏸️</div>
+      <div><b>PAUSE</b><p>Freezes every sound that's playing so you can hit all the buttons you want in total silence. Tap PLAY to jump back in right where you left off.</p></div>
+    </div>
+
+    <div class="help-item">
+      <div class="hl">🔊</div>
+      <div><b>ECHO</b><p>Adds a couple of softer repeated copies after each sound, like it's yelling into a canyon. Tap it again to go back to normal.</p></div>
+    </div>
+
+    <div class="help-item">
+      <div class="hl">🧬</div>
+      <div><b>DETUNE</b><p>Plays a second, fatter, slightly-off-key version underneath every sound. Makes it all sound deeper and weirder. Tap again for normal.</p></div>
+    </div>
+
+    <div class="help-item">
+      <div class="hl">🎚️</div>
+      <div><b>SCRATCH</b><p>Hold any pad and it stops replaying consecutively — instead it rips back and forth through the sound like a DJ scratching a record. Turn it off for normal holding.</p></div>
+    </div>
+
+    <div class="help-item">
+      <div class="hl">🎬</div>
+      <div><b>REC</b><p>Records whatever you play. Tap 🎬 to start, play some sounds, tap ⏹️ again and it instantly replays your whole performance back to you.</p></div>
+    </div>
+
+    <div class="help-item">
+      <div class="hl">🎚️</div>
+      <div><b>PITCH SLIDER</b><p>Drag it left to slow everything down, right to speed it all up into chipmunk territory. Faster than normal turns the NORMAL/SPED-UP button on automatically.</p></div>
     </div>
 
     <button class="help-close" id="helpClose">👍 got it, i'm a pro now</button>
@@ -564,10 +610,19 @@ let chaos = 0;
 let aura = 0;
 let chaosMode = false;
 let pitchMode = 1; // 1 = normal, 2 = SPED UP
+let pitchVal = 1;            // fine-grained pitch for the slider (playbackRate)
+let detuneOn = false;        // DETUNE: play a detuned copy on top
+let echoOn = false;          // ECHO: ring out with delay/feedback
+let pauseActive = false;     // PAUSE/PLAY for global freeze
+let pausedAudios = [];       // frozen audio elements (element + where it was)
+let scratchMode = false;     // SCRATCH: drag to scratch
+let recording = false;       // RECORD mode
+let recordLog = [];          // [[timeMs, idx], ...]
 let chaosTimer = null;
 let currentCat = 'ALL';
 let hits = new Array(ALL_SOUNDS.length).fill(0);
 
+// Eye-candy extras
 const POP_TEXT = ['SIGMA!','AURA+100','NO CAP','L+RATIO','💀💀','SKIBIDI','FANUM TAX','OHIOSAMA','W RIZZ','BRAINROT','LETS GOOO','MOGS','TOO COLD','BUSSIN','💯💯💯'];
 const EMOJI_RAIN = ['💀','🔥','🧠','😭','🤣','💀','💅','✨','🍆','🫠','😎','🦅','🏃','💯','🙏','😩','🤌','🪩','🍋','💥','🎉'];
 
@@ -620,12 +675,27 @@ function render() {
     const startHold = (x, y) => {
       clearTimeout(holdTimer); if (firing) clearInterval(firing); firing = null;
       held = false;
+      // SCRATCH MODE: drag around = seek the playing copy to random spots
+      if (scratchMode) {
+        if (!isPlaying(realIdx)) play(realIdx);
+        firing = setInterval(() => {
+          const el = __lastEl[realIdx];
+          if (el) {
+            try {
+              const d = (isFinite(el.duration) && el.duration > 0) ? el.duration : 3;
+              el.currentTime = Math.random() * d;
+              spawnPop(x, y);
+            } catch (e) {}
+          }
+        }, 90);
+        return;
+      }
       holdTimer = setTimeout(() => {
         held = true;
         // fire repeatedly, but only start the NEXT sound once the previous
         // one has finished — so holding replays it consecutively, never stacked
         const tick = () => {
-          if (!isPlaying(realIdx)) { play(realIdx); spawnPop(x, y); }
+          if (!isPlaying(realIdx)) { play(realIdx, true); spawnPop(x, y); }
         };
         tick();
         firing = setInterval(tick, 100);
@@ -708,25 +778,45 @@ function ctx() {
   return audioCtx;
 }
 
-function play(idx) {
+// last created element per sound index, used by SCRATCH to seek around
+const __lastEl = {};
+// Pure "make a sound, no counters" — used by play(), detune, echo and replay.
+function makeSound(idx, volume, rate) {
+  ctx();
+  const s = ALL_SOUNDS[idx];
+  const a = new Audio(BASE + s.file);
+  a.preload = 'auto';
+  a.playbackRate = rate || pitchVal;
+  a.preservesPitch = false;
+  a.volume = (volume === undefined ? 1 : volume);
+  a._idx = idx;
+  __lastEl[idx] = a;
+  audioEls.add(a);
+  a.addEventListener('ended', () => { audioEls.delete(a); noteEnded(idx); });
+  a.addEventListener('pause', () => { if (!pauseActive) audioEls.delete(a); });
+  a.addEventListener('error', () => { audioEls.delete(a); synth(s.synth); });
+  a.addEventListener('canplaythrough', () => { if (!stopped && !pauseActive) a.play().catch(() => synth(s.synth)); });
+  a.play().catch(() => synth(s.synth));
+  return a;
+}
+
+function play(idx, quiet) {
   const s = ALL_SOUNDS[idx];
   ctx();
   stopped = false;
-  const a = new Audio(BASE + s.file);
-  a.preload = 'auto';
-  a.playbackRate = pitchMode;
-  a.preservesPitch = false;
-  audioEls.add(a);
+  makeSound(idx, 1);                    // main copy
   noteStarted(idx);
-  a.addEventListener('ended', () => { audioEls.delete(a); noteEnded(idx); });
-  a.addEventListener('pause', () => { audioEls.delete(a); noteEnded(idx); });
-  a.addEventListener('canplaythrough', () => { if (!stopped) a.play().catch(() => synth(s.synth)); });
-  a.addEventListener('error', () => { audioEls.delete(a); noteEnded(idx); synth(s.synth); });
-  setTimeout(() => { if (!stopped && a.readyState < 2) synth(s.synth); }, 1500);
-  a.play().catch(() => synth(s.synth));
-  a.volume = 1;
+  if (detuneOn) makeSound(idx, 0.42, pitchVal * 1.07);   // detuned twin, quieter
+  if (echoOn) {                          // a couple of faded repeats (echo)
+    [0.22, 0.44].forEach((d, i) => setTimeout(() => {
+      if (!stopped && !pauseActive) makeSound(idx, 0.28 - i * 0.09, pitchVal);
+    }, d * 1000));
+  }
+  if (recording) recordLog.push([Date.now(), idx]);
 
   bouncePad(idx);
+  if (quiet) return;   // quiet = machine-gun mode: just the sound, no counters
+
   hits[idx]++;
   const h = document.getElementById('hits-' + idx);
   if (h) h.textContent = hits[idx];
@@ -740,6 +830,8 @@ function play(idx) {
     chaosCount.textContent = chaos;
   }
   if (chaos > 8 && !chaosMode) enableChaos();
+  // MAX CHAOS 2: past this chaos, every pad strobes with the rainbow too
+  document.body.classList.toggle('chaos2', chaosMode && chaos > 14);
   if (chaosMode) {
     flash.style.display = 'block';
     setTimeout(() => flash.style.display = 'none', 130);
@@ -752,6 +844,52 @@ function play(idx) {
     void document.body.offsetWidth;
     document.body.classList.add('mega-shake');
   }
+}
+
+/* ---------------- NEW CRAZY FEATURES ---------------- */
+function setBtnOn(id, on) {
+  const b = document.getElementById(id);
+  if (b) b.classList.toggle('on', on);
+}
+function toggleEcho() { echoOn = !echoOn; setBtnOn('echoBtn', echoOn); }
+function toggleDetune() { detuneOn = !detuneOn; setBtnOn('detuneBtn', detuneOn); }
+function toggleScratch() { scratchMode = !scratchMode; setBtnOn('scratchBtn', scratchMode); }
+function updatePauseBtn() {
+  const b = document.getElementById('pauseBtn');
+  if (b) b.textContent = pauseActive ? '▶️ PLAY' : '⏸️ PAUSE';
+  setBtnOn('pauseBtn', pauseActive);
+}
+function togglePause() {
+  if (!pauseActive) {
+    pauseActive = true;
+    pausedAudios = [];
+    audioEls.forEach(a => { try { pausedAudios.push({ a, t: a.currentTime }); a.pause(); } catch (e) {} });
+  } else {
+    pauseActive = false;
+    pausedAudios.forEach(({ a, t }) => { try { a.currentTime = t; a.play(); } catch (e) {} });
+    pausedAudios = [];
+  }
+  updatePauseBtn();
+}
+function toggleRec() {
+  recording = !recording;
+  recordLog = [];
+  setBtnOn('recBtn', recording);
+  document.getElementById('recBtn').textContent = recording ? '⏹️ REC' : '🎬 REC';
+}
+function replayRecord() {
+  if (!recordLog.length) return;
+  const t0 = recordLog[0][0];
+  recordLog.forEach(([t, idx]) => setTimeout(() => play(idx), t - t0));
+}
+function swapPitch() {
+  pitchMode = (pitchMode === 1) ? 2 : 1;
+  pitchVal = (pitchMode === 2) ? 1.7 : 1;
+  const b = document.getElementById('pitchBtn');
+  b.textContent = pitchMode === 1 ? '🎚️ NORMAL' : '🎚️ SPED-UP';
+  b.classList.toggle('on', pitchMode === 2);
+  const sl = document.getElementById('pitchSlider');
+  if (sl) sl.value = pitchVal;
 }
 
 function bouncePad(idx) {
@@ -798,20 +936,32 @@ function disableChaos() {
 function stopAll() {
   disableChaos();
   stopped = true;
+  // clear any pause-freeze so STOP truly silences everything
+  pauseActive = false; pausedAudios = [];
+  document.getElementById('pauseBtn').textContent = '⏸️ PAUSE';
+  document.getElementById('pauseBtn').classList.remove('on');
   // stop all hardware <Audio> playback
   audioEls.forEach(a => { try { a.pause(); a.currentTime = 0; } catch(e){} });
   audioEls.clear();
   // stop all WebAudio sources (synth fallbacks + bass bomb)
   wasources.forEach(n => { try { n.stop(); } catch(e){} });
   wasources.clear();
+  document.body.classList.remove('chaos2');
   chaos = 0; chaosCount.textContent = 0;
 }
 // Full factory reset: silence everything, clear counters, and reset the board.
 function resetAll() {
   stopAll();                       // silences all audio + turns off MAX CHAOS
   pitchMode = 1;                   // back to NORMAL speed
+  pitchVal = 1;
   document.getElementById('pitchBtn').textContent = '🎚️ NORMAL';
   document.getElementById('pitchBtn').classList.remove('on');
+  document.getElementById('pitchSlider').value = 1;
+  echoOn = detuneOn = scratchMode = false;
+  setBtnOn('echoBtn', false); setBtnOn('detuneBtn', false); setBtnOn('scratchBtn', false);
+  recording = false; recordLog = [];
+  document.getElementById('recBtn').textContent = '🎬 REC';
+  setBtnOn('recBtn', false);
   aura = 0; auraVal.textContent = 0;
   hits = new Array(ALL_SOUNDS.length).fill(0);
   currentCat = 'ALL';              // show everything again
@@ -859,10 +1009,22 @@ function bassBomb() {
 function idxOf(name) { return ALL_SOUNDS.findIndex(x => x.name === name); }
 
 document.getElementById('chaosBtn').addEventListener('click', () => chaosMode ? disableChaos() : enableChaos());
-document.getElementById('pitchBtn').addEventListener('click', () => {
-  pitchMode = pitchMode === 1 ? 2 : 1;
-  document.getElementById('pitchBtn').textContent = pitchMode === 1 ? '🎚️ NORMAL' : '🎚️ SPED-UP 🏃';
-  document.getElementById('pitchBtn').classList.toggle('on', pitchMode === 2);
+document.getElementById('pitchBtn').addEventListener('click', swapPitch);
+document.getElementById('pauseBtn').addEventListener('click', togglePause);
+document.getElementById('echoBtn').addEventListener('click', toggleEcho);
+document.getElementById('detuneBtn').addEventListener('click', toggleDetune);
+document.getElementById('scratchBtn').addEventListener('click', toggleScratch);
+document.getElementById('recBtn').addEventListener('click', () => {
+  if (recording) { replayRecord(); toggleRec(); }
+  else { toggleRec(); spawnPop(innerWidth / 2, 80); }
+});
+// pitch slider → live pitch (sets pitchVal directly + updates the toggle)
+document.getElementById('pitchSlider').addEventListener('input', e => {
+  pitchVal = parseFloat(e.target.value);
+  pitchMode = pitchVal > 1.3 ? 2 : 1;
+  const b = document.getElementById('pitchBtn');
+  b.textContent = pitchMode === 1 ? '🎚️ NORMAL' : '🎚️ SPED-UP';
+  b.classList.toggle('on', pitchMode === 2);
 });
 document.getElementById('wallBtn').addEventListener('click', wallOfNoise);
 document.getElementById('bassBtn').addEventListener('click', bassBomb);
