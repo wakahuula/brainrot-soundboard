@@ -54,12 +54,9 @@
       radial-gradient(circle at 75% 75%, rgba(160,32,240,.55), transparent 40%),
       radial-gradient(circle at 50% 50%, rgba(255,0,64,.4), transparent 50%),
       repeating-linear-gradient(45deg, #1a0030 0px, #2b0050 20px, #1a0030 40px);
-    animation: bgSpin 12s linear infinite;
-    filter: saturate(2) hue-rotate(0deg);
-    transition: filter .2s;
+    filter: saturate(2);
   }
-  @keyframes bgSpin { 0% { transform: rotate(0deg) scale(1);} 50% { transform: rotate(180deg) scale(1.4);} 100% { transform: rotate(360deg) scale(1);} }
-  body.hyper::before { animation-duration: .7s; filter: saturate(3) contrast(1.4) hue-rotate(90deg); }
+  body.hyper::before { filter: saturate(3) contrast(1.4); }
 
   /* floating emoji rain layer */
   #emojis {
@@ -75,7 +72,6 @@
     font-size: 34px;
     animation: rise linear infinite;
     opacity: .9;
-    filter: drop-shadow(0 0 10px rgba(255,255,255,.9));
   }
   @keyframes rise {
     0%   { transform: translateY(0) rotate(0deg) scale(1); }
@@ -120,19 +116,17 @@
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
-    animation: rainbowFlow 1.2s linear infinite;
     text-shadow: 0 0 34px rgba(255,46,196,.7);
     filter: drop-shadow(0 0 12px rgba(0,255,255,.6));
   }
-  @keyframes rainbowFlow { 0% {background-position: 0% 0;} 100% {background-position: 300% 0;} }
 
   .tagline {
     font-size: clamp(.95rem, 3.5vw, 1.4rem);
     margin-top: 4px;
-    animation: blink .5s steps(2) infinite;
     text-transform: uppercase;
     font-weight: 900;
   }
+  .tagline.flashline { animation: blink .5s steps(2) infinite; }
   @keyframes blink { 50% { opacity: .05; } }
 
   .sub {
@@ -152,8 +146,7 @@
     position: sticky;
     top: 0;
     z-index: 50;
-    background: rgba(10,0,20,.78);
-    backdrop-filter: blur(8px);
+    background: rgba(10,0,20,.9);
     border-bottom: 4px solid var(--neon-cyan);
     box-shadow: 0 4px 24px rgba(0,255,255,.5);
   }
@@ -219,7 +212,7 @@
   }
   .pad {
     position: relative;
-    touch-action: none;
+    touch-action: pan-y;
     border-radius: 18px;
     border: 3px solid #fff;
     padding: 18px 8px 12px;
@@ -233,10 +226,8 @@
     text-align: center;
     transition: transform .05s, box-shadow .1s;
     box-shadow: 0 6px 0 rgba(0,0,0,.55), 0 0 20px rgba(255,255,255,.18);
-    animation: padBreathe 2s infinite alternate;
   }
-  @keyframes padBreathe { 0%{ transform: scale(1) rotate(0deg); } 100%{ transform: scale(1.03) rotate(1deg); } }
-  .pad:active { transform: translateY(5px) scale(.96) !important; animation-play-state: paused; }
+  .pad:active { transform: translateY(5px) scale(.96) !important; }
   .pad.flash { animation: padFlash .3s; filter: brightness(2) saturate(2.5); }
   @keyframes padFlash { 0%{transform:scale(1) rotate(0);} 40%{transform:scale(1.18) rotate(4deg);} 100%{transform:scale(1) rotate(0);} }
   .pad .emoji { font-size: 2.6rem; filter: drop-shadow(0 0 7px rgba(255,255,255,.95)); }
@@ -577,8 +568,8 @@ function spawnEmoji() {
   emojis.appendChild(e);
   e.addEventListener('animationend', () => e.remove());
 }
-for (let i = 0; i < 40; i++) spawnEmoji();
-setInterval(() => { if (emojis.children.length < 60) spawnEmoji(); }, 350);
+for (let i = 0; i < 22; i++) spawnEmoji();
+setInterval(() => { if (emojis.children.length < 30) spawnEmoji(); }, 600);
 
 /* ---------------- POP COMBO TEXT ---------------- */
 function spawnPop(x, y) {
