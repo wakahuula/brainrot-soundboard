@@ -309,6 +309,12 @@
   footer {
     text-align: center; padding: 18px; opacity: .75; font-size: .8rem;
   }
+  footer a {
+    color: #7ff3ff; text-decoration: none; font-weight: 800;
+    display: inline-block; margin-top: 6px; padding: 4px 12px;
+    border: 1px solid #7ff3ff55; border-radius: 999px; opacity: .9;
+  }
+  footer a:hover { opacity: 1; background: #7ff3ff22; }
 
   /* ===== HELP / ? MODAL ===== */
   .help-btn {
@@ -413,7 +419,7 @@
 
 <div id="now">▶️ NOW PLAYING</div>
 
-<footer>24 sounds from myinstants // 100% certified brainrot // hold a pad to machine-gun 💀🔥🎧</footer>
+<footer>44 sounds from myinstants // 100% certified brainrot // hold a pad to machine-gun 💀🔥🎧 <br><a href="https://kosta.lol" target="_blank" rel="noopener">🐐 made by kosta · kosta.lol</a></footer>
 
 <!-- ===== HELP MODAL ===== -->
 <div class="help-overlay" id="helpOverlay">
@@ -463,7 +469,7 @@
 <script>
 /* ============================================================
    BRAINROT BOARD 9000 - MAXIMUM+ CHAOS EDITION
-   24 real meme sounds from MyInstants.
+   44 real meme sounds from MyInstants.
    Every sound falls back to a WebAudio synth if offline.
    Hold a pad / key to machine-gun it. Go absolutely ballistic.
    ============================================================ */
@@ -494,9 +500,38 @@ const SOUNDS = [
   ['WIN10 ERROR',    'windows-10-error-sound.mp3',         '💻', 4, 'error', 'SYSTEM'],
   ['ERROR REMIX',    'windows_error_remix-mp3cut.mp3',     '⚙️', 4, 'error', 'SYSTEM'],
   ['EARPAIN BOOM',   'vine-boom-and-or-thud-but-you-die-from-ear-pain_wzP1skh.mp3', '💢', 0, 'boom', 'SCREAM'],
+  // ---- THE VIRAL WAVE — 22 more certified bangers ----
+  ['RICKROLL',       'never-gonna-give-you-up.mp3',        '🕺', 5, 'wow', 'TUNES'],
+  ['DEJA VU',        'deja-vu.mp3',                        '🏎️', 1, 'wow', 'TUNES'],
+  ['SHOOTING STARS', 'shooting-stars.mp3',                 '🌠', 8, 'wow', 'TUNES'],
+  ['NYAN CAT',       'nyan-cat.mp3',                       '🐱', 8, 'wow', 'TUNES'],
+  ['TROLOLO',        'trololo.mp3',                        '🎤', 2, 'wow', 'TUNES'],
+  ['MEGALOVANIA',    'megalovania.mp3',                    '💀', 3, 'boom', 'GAMER'],
+  ['WII SPORTS',     'wii-sports.mp3',                     '🎳', 7, 'wow', 'GAMER'],
+  ['VILLAGER',       'minecraft-villager.mp3',             '🟩', 2, 'among', 'GAMER'],
+  ['AMOGUS DRIP',    'among-us-drip.mp3',                  '🟥', 1, 'among', 'GAMER'],
+  ['WASTED',         'wasted.mp3',                         '🥀', 3, 'boom', 'GAMER'],
+  ['DAME DA NE',     'dame-da-ne.mp3',                     '🗿', 9, 'wow', 'ICONIC'],
+  ['WHY RUNNING',    'why-are-you-running.mp3',            '🏃', 6, 'fail', 'ICONIC'],
+  ['MISSION IMP',    'mission-impossible.mp3',             '🕵️', 1, 'wow', 'ICONIC'],
+  ['GENERAL KENOBI', 'hello-there-general-kenobi.mp3',     '⚔️', 5, 'boom', 'ICONIC'],
+  ['I\u2019LL BE BACK', 'ill-be-back.mp3',                  '🕶️', 9, 'boom', 'ICONIC'],
+  ['I AM SPEED',     'i-am-speed.mp3',                     '⚡', 6, 'pipe', 'ICONIC'],
+  ['TO BE CONTINUED','to-be-continued.mp3',                '✋', 8, 'wow', 'ICONIC'],
+  ['AIRHORN',        'airhorn.mp3',                        '📣', 2, 'boom', 'MEMES'],
+  ['SAD VIOLIN',     'sad-violin.mp3',                     '🎻', 4, 'wow', 'MEMES'],
+  ['WHAT DA DOG',    'what-the-dog-doing.mp3',             '🐕', 9, 'wow', 'MEMES'],
+  ['BONK',           'bonk.mp3',                           '🏏', 7, 'pipe', 'MEMES'],
+  ['DISCORD PING',   'discord-notification.mp3',           '💬', 8, 'cha-ching', 'SYSTEM'],
 ];
 
 const ALL_SOUNDS = SOUNDS.map(s => ({ name: s[0], file: s[1], emoji: s[2], color: s[3], synth: s[4], cat: s[5] }));
+
+// Keyboard shortcuts: every sound gets a key. When there are more sounds
+// than keys, keys start repeating (2nd letter = same key on the next board).
+const KEYS = ['Q','W','E','R','T','Y','U','I','O','P','A','S','D','F','G','H','J','K','L','Z','X','C','V','B','N','M','1','2','3','4','5'];
+const KEYMAP = {};
+KEYS.forEach((k, i) => { KEYMAP[k] = i; });
 
 const grid = document.getElementById('grid');
 const cats = document.getElementById('cats');
@@ -586,14 +621,13 @@ function render() {
   });
 }
 function KEY_LABEL(i) {
-  const keys = ['Q','W','E','R','T','Y','U','I','O','P','A','S','D','F','G','H','J','K','L','Z','X','C','V','B'];
-  return keys[i % keys.length];
+  return i < KEYS.length ? KEYS[i] : '';
 }
 
 /* ---------------- CATEGORIES ---------------- */
 function buildCat() {
   cats.innerHTML = '<button class="cat on" data-c="ALL">♾️ ALL</button>';
-  ['MEMES','BODILY','VIBES','ICONIC','SCREAM','CLANG','SYSTEM'].forEach(c => {
+  ['MEMES','BODILY','VIBES','ICONIC','SCREAM','CLANG','SYSTEM','TUNES','GAMER'].forEach(c => {
     const b = document.createElement('button');
     b.className = 'cat'; b.dataset.c = c; b.textContent = c;
     cats.appendChild(b);
@@ -800,7 +834,6 @@ helpOverlay.addEventListener('click', e => { if (e.target === helpOverlay) close
 document.addEventListener('keydown', e => { if (e.key === 'Escape') closeHelp(); });
 
 /* ---------------- KEYBOARD ---------------- */
-const KEYMAP = { Q:0,W:1,E:2,R:3,T:4,Y:5,U:6,I:7,O:8,P:9,A:10,S:11,D:12,F:13,G:14,H:15,J:16,K:17,L:18,Z:19,X:20,C:21,V:22,B:23 };
 document.addEventListener('keydown', e => {
   if (e.repeat) return;
   const k = e.key.toUpperCase();
