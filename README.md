@@ -1,13 +1,13 @@
 # 🤯 BRAINROT BOARD 9000
 
-A soundboard with 100 meme sounds. Tap a button, it plays. That's it.
+A soundboard with 98 meme sounds. Tap a button, it plays. That's it.
 
 Live at **https://soundboard.kosta.lol**
 
 ## What the top buttons do
 
 - **🎚️ NORMAL / SPED-UP** — same sound at normal speed or squeaky and fast.
-- **💣 WALL OF NOISE** — plays all 100 sounds at once. Chaos.
+- **💣 WALL OF NOISE** — plays all 98 sounds at once. Chaos.
 - **🎚️ PITCH** — slider that speeds everything up or slows it down. Faster than 1.3x flips the NORMAL/SPED-UP button automatically.
 - **⏸️ PAUSE** — freezes all sound so you can smash buttons in silence.
 - **🔊 ECHO** — adds faded repeats after each sound.
