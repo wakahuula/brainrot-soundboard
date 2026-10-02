@@ -2,7 +2,8 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="BRAINROT BOARD 9000: 68 meme sounds, MAX CHAOS, Bass Bomb, Echo, Detune und Dauer-Maschinengewehr. Tippen, halten, Chaos.">
 <title>BRAINROT BOARD 9000 💀🤯 MAXIMUM+ CHAOS EDITION</title>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤯</text></svg>">
 <style>
@@ -32,13 +33,18 @@
 
   * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
 
-  html, body {
-    height: 100%;
+  html { overflow-x: hidden; }
+  body {
+    min-height: 100%;
     overflow-x: hidden;
     font-family: 'Comic Neue', 'Comic Sans MS', 'Chalkboard SE', cursive, sans-serif;
     background: #0a0014;
     color: #fff;
-    user-select: none;
+  }
+  .pad, .toolbar, .cats, .help-box { user-select: none; -webkit-user-select: none; }
+  .sr-only {
+    position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+    overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0;
   }
 
   /* ===== SEIZURE RAINBOW BACKGROUND (hue-rotating) ===== */
@@ -65,6 +71,7 @@
     z-index: -1;
     pointer-events: none;
     overflow: hidden;
+    contain: layout paint style;
   }
   .float-emoji {
     position: absolute;
@@ -107,7 +114,7 @@
   }
   h1 {
     font-size: clamp(2.4rem, 10vw, 5.5rem);
-    font-weight: 900;
+    font-weight: 700;
     letter-spacing: 3px;
     text-transform: uppercase;
     display: inline-block;
@@ -127,7 +134,8 @@
     margin-top: 4px;
     animation: blink .5s steps(2) infinite;
     text-transform: uppercase;
-    font-weight: 900;
+    font-weight: 700;
+    text-shadow: 0 2px 8px rgba(0,0,0,.95), 0 0 2px #000;
   }
   @keyframes blink { 50% { opacity: .05; } }
 
@@ -135,6 +143,7 @@
     font-size: .95rem;
     opacity: .85;
     margin-top: 4px;
+    text-shadow: 0 2px 8px rgba(0,0,0,.95), 0 0 2px #000;
   }
 
   /* ===== TOOLBAR ===== */
@@ -156,7 +165,7 @@
     border: 2px solid #fff;
     border-radius: 999px;
     font-family: inherit;
-    font-weight: 900;
+    font-weight: 700;
     font-size: .9rem;
     padding: 8px 14px;
     cursor: pointer;
@@ -166,9 +175,11 @@
     transition: transform .05s;
     text-transform: uppercase;
     letter-spacing: .5px;
-    animation: hoverWobble 3s infinite;
   }
   @keyframes hoverWobble { 0%,100%{ transform: rotate(0deg);} 50%{ transform: rotate(-1.5deg);} }
+  @media (hover: hover) and (prefers-reduced-motion: no-preference) {
+    .btn { animation: hoverWobble 3s infinite; }
+  }
   .btn:active { transform: translateY(4px) rotate(0) !important; box-shadow: 0 1px 0 rgba(0,0,0,.5); }
   .btn.pink  { background: linear-gradient(180deg,#ffb6e8,#ff2ec4); }
   .btn.cyan  { background: linear-gradient(180deg,#b6ffff,#00aaff); }
@@ -176,7 +187,10 @@
   .btn.green { background: linear-gradient(180deg,#c6ffb6,#39ff14); }
   .btn.red   { background: linear-gradient(180deg,#ffb6c6,#ff0040); }
   .btn.purple{ background: linear-gradient(180deg,#e0b6ff,#a020f0); color:#fff;}
-  .btn.big   { font-size: 1.05rem; padding: 11px 20px; animation: pulseBtn .7s infinite; }
+  .btn.big   { font-size: 1.05rem; padding: 11px 20px; }
+  @media (prefers-reduced-motion: no-preference) {
+    .btn.big { animation: pulseBtn .7s infinite; }
+  }
   @keyframes pulseBtn { 0%,100%{transform:scale(1);} 50%{transform:scale(1.08);} }
   .btn.on { outline: 4px solid #fff; filter: brightness(1.3) saturate(2); animation: none; }
   .btn.blink2 { animation: padFlash .5s infinite; }
@@ -185,7 +199,7 @@
   .pitch {
     display: inline-flex; align-items: center; gap: 6px;
     background: rgba(255,255,255,.12); border: 2px solid #fff; border-radius: 999px;
-    padding: 6px 12px; color: #fff; font-weight: 900; cursor: pointer;
+    padding: 6px 12px; color: #fff; font-weight: 700; cursor: pointer;
   }
   .pitch input[type=range] { width: 90px; accent-color: var(--neon-cyan); }
 
@@ -199,13 +213,13 @@
     margin: 0 auto;
   }
   .cat {
-    border: 2px solid rgba(255,255,255,.6);
-    background: rgba(255,255,255,.08);
+    border: 2px solid rgba(255,255,255,.55);
+    background: rgba(12,0,24,.62);
     color: #fff;
     border-radius: 999px;
     padding: 6px 14px;
     font-family: inherit;
-    font-weight: 800;
+    font-weight: 700;
     font-size: .82rem;
     cursor: pointer;
     text-transform: uppercase;
@@ -224,6 +238,7 @@
   .pad {
     position: relative;
     touch-action: pan-y;
+    contain: layout style paint;
     border-radius: 18px;
     border: 3px solid #fff;
     padding: 18px 8px 12px;
@@ -234,6 +249,8 @@
     justify-content: center;
     gap: 6px;
     cursor: pointer;
+    font: inherit;
+    color: #fff;
     text-align: center;
     transition: transform .05s, box-shadow .1s;
     box-shadow: 0 6px 0 rgba(0,0,0,.55), 0 0 20px rgba(255,255,255,.18);
@@ -243,8 +260,24 @@
   body.chaos2 .pad { animation: padFlash .22s infinite; }
   @keyframes padFlash { 0%{transform:scale(1) rotate(0);} 40%{transform:scale(1.18) rotate(4deg);} 100%{transform:scale(1) rotate(0);} }
   .pad .emoji { font-size: 2.6rem; filter: drop-shadow(0 0 7px rgba(255,255,255,.95)); }
-  .pad .name { font-size: .76rem; font-weight: 900; text-transform: uppercase; letter-spacing: .5px; text-shadow: 0 2px 3px rgba(0,0,0,.85); line-height: 1.1; }
-  .pad .hits { position:absolute; top:6px; right:9px; font-size:.72rem; font-weight:800; opacity:.9; }
+  .pad .name {
+    font-size: .78rem; font-weight: 700; text-transform: uppercase; letter-spacing: .6px;
+    line-height: 1.1;
+    background: rgba(0,0,0,.72);
+    border: 1px solid rgba(255,255,255,.35);
+    border-radius: 999px;
+    padding: 3px 9px;
+    text-shadow: 0 1px 2px rgba(0,0,0,.9);
+  }
+  .pad .hits {
+    position:absolute; top:6px; right:7px; font-size:.72rem;
+    font-weight: 700;
+    background: rgba(0,0,0,.72);
+    border: 1px solid rgba(255,255,255,.3);
+    border-radius: 999px;
+    padding: 1px 7px;
+    font-variant-numeric: tabular-nums;
+  }
 
   /* rainbow pad colors */
   .c0 { background: linear-gradient(160deg,#ff6b6b,#c0392b); }
@@ -268,7 +301,7 @@
     border: 3px solid var(--neon-pink);
     border-radius: 999px;
     padding: 10px 26px;
-    font-weight: 900;
+    font-weight: 700;
     font-size: 1.15rem;
     text-transform: uppercase;
     box-shadow: 0 0 34px var(--neon-pink);
@@ -276,6 +309,9 @@
     transition: transform .3s cubic-bezier(.2,2,.4,1);
     white-space: nowrap;
     pointer-events: none;
+    max-width: min(90vw, 26rem);
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
   #now.show { transform: translateX(-50%) translateY(0); }
 
@@ -283,17 +319,21 @@
   #chaos {
     text-align: center;
     font-size: 1rem;
-    padding: 6px;
-    font-weight: 800;
+    padding: 6px 12px;
+    font-weight: 700;
     color: var(--neon-yellow);
+    background: rgba(12,0,24,.55);
+    border-radius: 999px;
+    max-width: 760px;
+    margin: 4px auto 2px;
     text-shadow: 0 0 14px var(--neon-yellow);
   }
-  #chaos b { font-size: 1.5rem; }
+  #chaos b { font-size: 1.5rem; font-variant-numeric: tabular-nums; }
   #aura {
     text-align: center;
     font-size: .85rem;
     padding: 2px 6px 8px;
-    font-weight: 800;
+    font-weight: 700;
     color: var(--neon-cyan);
     text-shadow: 0 0 12px var(--neon-cyan);
   }
@@ -308,7 +348,7 @@
   /* combo popup text */
   .pop {
     position: fixed;
-    font-weight: 900;
+    font-weight: 700;
     font-size: 1.6rem;
     text-transform: uppercase;
     z-index: 300;
@@ -326,7 +366,7 @@
     text-align: center; padding: 18px; opacity: .75; font-size: .8rem;
   }
   footer a {
-    color: #7ff3ff; text-decoration: none; font-weight: 800;
+    color: #7ff3ff; text-decoration: none; font-weight: 700;
     display: inline-block; margin-top: 6px; padding: 4px 12px;
     border: 1px solid #7ff3ff55; border-radius: 999px; opacity: .9;
   }
@@ -337,7 +377,7 @@
     border-radius: 999px;
     width: 34px; height: 34px;
     display: inline-grid; place-items: center;
-    font-size: 1rem; font-weight: 900;
+    font-size: 1rem; font-weight: 700;
     cursor: pointer;
     border: 2px solid #fff;
     background: linear-gradient(180deg,#b6ffff,#00aaff);
@@ -398,55 +438,118 @@
     border: 2px solid #fff;
     border-radius: 999px;
     padding: 12px;
-    font-family: inherit; font-weight: 900; font-size: 1rem;
+    font-family: inherit; font-weight: 700; font-size: 1rem;
     cursor: pointer;
     background: linear-gradient(120deg, var(--neon-pink), var(--neon-purple));
     color: #fff;
   }
   .help-close:active { transform: scale(.97); }
+
+  /* ===== COMBO + EQUALIZER (GPU-freundlich: nur transform/opacity) ===== */
+  #combo {
+    display: inline-block; font-weight: 700; color: #fff;
+    opacity: 0; transform: scale(.6);
+    transition: transform .12s cubic-bezier(.2,2,.4,1), opacity .12s;
+    text-shadow: 0 0 12px #fff;
+  }
+  #combo.on { opacity: 1; transform: scale(1.15); color: var(--neon-green); text-shadow: 0 0 16px var(--neon-green); }
+  #eq {
+    display: flex; align-items: flex-end; justify-content: center; gap: 3px;
+    height: 30px; max-width: 560px; margin: 2px auto 4px; padding: 0 14px;
+  }
+  #eq i {
+    flex: 1 1 0; height: 100%;
+    border-radius: 4px 4px 2px 2px;
+    transform: scaleY(.1); transform-origin: bottom;
+    transition: transform .1s linear;
+    box-shadow: 0 0 8px rgba(0,255,255,.45);
+  }
+  #eq i:nth-child(4n+1) { background: linear-gradient(180deg,var(--neon-cyan),#0088ff); }
+  #eq i:nth-child(4n+2) { background: linear-gradient(180deg,var(--neon-pink),#a020f0); }
+  #eq i:nth-child(4n+3) { background: linear-gradient(180deg,var(--neon-yellow),#ff9100); }
+  #eq i:nth-child(4n)   { background: linear-gradient(180deg,var(--neon-green),#00b894); }
+
+  /* ===== KOMPAKTE TOOLBAR AUF SCHMALEN SCREENS ===== */
+  .toolbar-more { display: contents; }
+  .more-btn { display: none; }
+  @media (max-width: 700px) {
+    .toolbar { gap: 7px; padding: 9px 8px; }
+    .toolbar-more { display: none; }
+    .toolbar-more.open { display: flex; flex-wrap: wrap; justify-content: center; gap: 7px; width: 100%; }
+    .more-btn { display: inline-block; }
+    body.tools-open .toolbar { max-height: 68vh; overflow-y: auto; }
+  }
+
+  /* ===== SICHTBARER FOKUS ===== */
+  .pad:focus-visible, .btn:focus-visible, .cat:focus-visible,
+  .help-btn:focus-visible, .help-close:focus-visible, .more-btn:focus-visible,
+  .pitch input[type=range]:focus-visible {
+    outline: 3px solid #fff;
+    outline-offset: 3px;
+    box-shadow: 0 0 0 6px var(--neon-cyan), 0 0 24px var(--neon-cyan);
+  }
+
+  /* ===== REDUCED MOTION ===== */
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: .001ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: .001ms !important;
+    }
+    h1 { animation: none !important; background-position: 0 0; }
+    .tagline { animation: none !important; opacity: 1 !important; }
+    #emojis { display: none !important; }
+    .pad.flash, body.chaos2 .pad { animation: none !important; filter: none !important; }
+  }
 </style>
 </head>
 <body>
 
-<div id="emojis"></div>
-<div id="flash"></div>
+<div id="emojis" aria-hidden="true"></div>
+<div id="flash" aria-hidden="true"></div>
 
+<main id="app">
 <div class="header">
   <h1>🤯 BRAINROT BOARD 9000 🤯</h1>
   <div class="tagline">⚠️ MAXIMUM+ CHAOS EDITION ⚠️</div>
-  <div class="sub">😎 24 cursed pads... hold 2 machine-gun... FEEL THE ULTIMATE AURA 🧠💀🔥</div>
+  <div class="sub">😎 <span id="padCount">68</span> cursed pads... hold a pad for machine-gun... FEEL THE ULTIMATE AURA 🧠💀🔥</div>
 </div>
 
 <div class="toolbar">
   <button class="btn big red" id="chaosBtn">🚨 MAX CHAOS</button>
-  <button class="btn big green" id="pitchBtn">🎚️ NORMAL</button>
-  <button class="btn red" id="wallBtn">💣 WALL OF NOISE</button>
-  <button class="btn purple" id="bassBtn">🔊 BASS BOMB</button>
   <button class="btn cyan" id="randomBtn">🎲 RANDOM</button>
-  <button class="btn pink" id="sandwichBtn">🥪 SANDWICH</button>
-  <button class="btn cyan" id="pauseBtn">⏸️ PAUSE</button>
-  <button class="btn purple" id="echoBtn">🔊 ECHO</button>
-  <button class="btn green" id="detuneBtn">🧬 DETUNE</button>
-  <button class="btn red" id="recBtn">🎬 REC</button>
-  <label class="pitch" title="Pitch slider">🎚️ <input type="range" id="pitchSlider" min="0.4" max="2.5" step="0.05" value="1"></label>
   <button class="btn" id="stopBtn">🛑 STOP</button>
-  <button class="btn yellow" id="resetBtn">🔄 RESET</button>
-  <button class="help-btn" id="helpBtn" title="What do these do?">❓</button>
+  <button class="help-btn" id="helpBtn" aria-label="❓ How this board works" title="What do these do?">❓</button>
+  <button class="btn yellow more-btn" id="moreBtn" aria-expanded="false" aria-controls="moreTools">➕ MORE</button>
+  <div class="toolbar-more" id="moreTools">
+    <button class="btn big green" id="pitchBtn">🎚️ NORMAL</button>
+    <button class="btn red" id="wallBtn">💣 WALL OF NOISE</button>
+    <button class="btn purple" id="bassBtn">🔊 BASS BOMB</button>
+    <button class="btn pink" id="sandwichBtn">🥪 SANDWICH</button>
+    <button class="btn cyan" id="pauseBtn">⏸️ PAUSE</button>
+    <button class="btn purple" id="echoBtn">🔊 ECHO</button>
+    <button class="btn green" id="detuneBtn">🧬 DETUNE</button>
+    <button class="btn red" id="recBtn">🎬 REC</button>
+    <label class="pitch" title="Pitch slider"><span class="sr-only">Pitch</span>🎚️ <input type="range" id="pitchSlider" aria-label="Pitch" min="0.4" max="2.5" step="0.05" value="1"></label>
+    <button class="btn yellow" id="resetBtn">🔄 RESET</button>
+  </div>
 </div>
 
 <div class="cats" id="cats"></div>
 
-<div id="chaos">CHAOS⚠️LEVEL: <b id="chaosCount">0</b> 🔥 &nbsp;&nbsp; AURA: <span id="auraVal">0</span> ✨</div>
+<div id="chaos">CHAOS⚠️LEVEL: <b id="chaosCount">0</b> 🔥 &nbsp;&nbsp; AURA: <span id="auraVal">0</span> ✨ &nbsp;&nbsp; <span id="combo">COMBO x0</span></div>
+<div id="eq" aria-hidden="true"></div>
 <div class="grid" id="grid"></div>
 
 <div id="now">▶️ NOW PLAYING</div>
 
-<footer>68 sounds from myinstants // 100% certified brainrot // hold a pad to machine-gun 💀🔥🎧 <br><a href="https://kosta.lol" target="_blank" rel="noopener">🐐 made by kosta · kosta.lol</a></footer>
+<footer><span id="footerCount">68</span> sounds from myinstants // 100% certified brainrot // hold a pad to machine-gun 💀🔥🎧 <br><a href="https://kosta.lol" target="_blank" rel="noopener">🐐 made by kosta · kosta.lol</a></footer>
+</main>
 
 <!-- ===== HELP MODAL ===== -->
-<div class="help-overlay" id="helpOverlay">
+<div class="help-overlay" id="helpOverlay" role="dialog" aria-modal="true" aria-labelledby="helpTitle">
   <div class="help-box">
-    <h2>❓ What do these do?</h2>
+    <h2 id="helpTitle">❓ What do these do?</h2>
     <div class="help-sub">plain english edition, zero brainrot to decode. tap a sound to play it.</div>
 
     <div class="help-item">
@@ -456,7 +559,7 @@
 
     <div class="help-item">
       <div class="hl">💣</div>
-      <div><b>WALL OF NOISE</b><p>Plays ALL 24 sounds at the exact same time. Pure chaos. Do not do this near your parents.</p></div>
+      <div><b>WALL OF NOISE</b><p>Plays ALL <span id="wallCount">68</span> sounds at the exact same time. Pure chaos. Do not do this near your parents.</p></div>
     </div>
 
     <div class="help-item">
@@ -521,7 +624,7 @@
 <script>
 /* ============================================================
    BRAINROT BOARD 9000 - MAXIMUM+ CHAOS EDITION
-   56 real meme sounds from MyInstants.
+   68 real meme sounds from MyInstants.
    Every sound falls back to a WebAudio synth if offline.
    Hold a pad / key to machine-gun it. Go absolutely ballistic.
    ============================================================ */
@@ -589,18 +692,51 @@ const SOUNDS = [
   ['ANOTHER ONE',    'another-one.mp3',                    '🎤', 3, 'rizz', 'ICONIC'],
   ['ROASTED',        'boom-roasted.mp3',                   '🔥', 2, 'boom', 'ICONIC'],
   // ---- THE HYPERVIRAL WAVE — 12 more certified bangers ----
-  ['FANUM TAX',      'fanum-tax.mp3',                      '💸', 2, 'rizz', 'MEMES'],
+  ['FANUM TAX',      'skibidi-toilet-sigma-fanum-tax-only-in-ohio.mp3', '💸', 2, 'rizz', 'MEMES'],
   ['LET HIM COOK',   'let-him-cook.mp3',                   '👨‍🍳', 5, 'wow', 'ICONIC'],
-  ['OHIO FINAL BOSS','ohio-final-boss.mp3',                '🎮', 6, 'boom', 'MEMES'],
+  ['OHIO FINAL BOSS','final-boss.mp3',                     '🎮', 6, 'boom', 'MEMES'],
   ['GIGACHAD',       'gigachad.mp3',                       '🗿', 9, 'rizz', 'ICONIC'],
   ['W RIZZ',         'w-rizz.mp3',                         '🦃', 5, 'rizz', 'VIBES'],
-  ['CREEPER',        'creeper-hiss.mp3',                   '🧨', 3, 'among', 'GAMER'],
+  ['CREEPER',        'creeper.mp3',                        '🧨', 3, 'among', 'GAMER'],
   ['FUNNY LAUGH',    'evillaugh.mp3',                      '😹', 8, 'wow', 'VIBES'],
-  ['SKULL TRUMPET',  'skull-trompete.mp3',                 '🎺', 3, 'wow', 'SCREAM'],
+  ['SKULL TRUMPET',  'skull-trumpet-sound.mp3',            '🎺', 3, 'wow', 'SCREAM'],
   ['NUCLEAR',        'nuclear-explosion.mp3',              '☢️', 0, 'boom', 'SCREAM'],
-  ['FRYING PAN',     'frying-pan-sound.mp3',               '🍳', 7, 'pipe', 'CLANG'],
+  ['FRYING PAN',     'frying-pan-clank.mp3',               '🍳', 7, 'pipe', 'CLANG'],
   ['GUN SHOT',       'gun-shot.mp3',                       '🔫', 7, 'pipe', 'SCREAM'],
-  ['GOT THE REF',    'i-just-got-this-reference.mp3',      '🤓', 1, 'wow', 'ICONIC'],
+  ['YIPPEE',         'yippeeeeeeeeeeeeee.mp3',              '🎉', 1, 'wow', 'ICONIC'],
+  // ---- INTERNET LEGENDS WAVE - 32 more certified bangers ----
+  ['TRALALERO',      'tralalero-tralala-meme_R8mqoQo.mp3',  '🦈', 4, 'wow', 'MEMES'],
+  ['BOMBARDIRO',     'bombardiro-crocodilo_4kNJ6me.mp3',    '✈️', 7, 'boom', 'MEMES'],
+  ['TUNG SAHUR',     'tung-tung-sahur.mp3',                 '🥁', 2, 'pipe', 'MEMES'],
+  ['SIGMA BOY',      'sigma-boy.mp3',                       '🕺', 5, 'rizz', 'VIBES'],
+  ['WHAT THE SIGMA', 'erm-what-the-sigma_su7GnzC.mp3',      '🤨', 9, 'wow', 'MEMES'],
+  ['EMOTIONAL DMG',  'emotional-damage-meme.mp3',           '💔', 3, 'wow', 'MEMES'],
+  ['CUT G',          'i-like-your-cut-g-revisited.mp3',     '✂️', 6, 'pipe', 'MEMES'],
+  ['GET GRIDDY',     'griddy.mp3',                          '🕺', 8, 'wow', 'VIBES'],
+  ['MOGGING',        'mogging-edit.mp3',                    '💪', 5, 'rizz', 'VIBES'],
+  ['SIUUU',          'ronaldo-siuuuu.mp3',                  '⚽', 4, 'scream', 'VIBES'],
+  ['ANIME AHH',      'anime-ahh.mp3',                       '🐱', 3, 'wow', 'VIBES'],
+  ['GALAXY',         'galaxy-meme.mp3',                     '🌌', 5, 'wow', 'VIBES'],
+  ['WIDE PUTIN',     'my-movie-6_0RlWMvM.mp3',              '🦅', 0, 'boom', 'MEMES'],
+  ['DEATH SOUND',    'tmp_7901-951678082.mp3',              '☠️', 6, 'boom', 'GAMER'],
+  ['WRONG BUZZER',   'wrong-answer-sound-effect.mp3',       '❌', 4, 'error', 'SYSTEM'],
+  ['GET OUT',        'tuco-get-out.mp3',                    '🚪', 7, 'pipe', 'ICONIC'],
+  ['MAX VERSTAPPEN', 'tu-tu-tu-du-max-verstappen.mp3',      '🏎️', 1, 'boom', 'VIBES'],
+  ['JACKPOT',        'i-just-hit-the-jackpot.mp3',          '🎰', 2, 'cha-ching', 'ICONIC'],
+  ['FBI OPEN UP',    'fbi-open-up_dwLhIFf.mp3',             '🚔', 9, 'boom', 'MEMES'],
+  ['SPIDER SONG',    'spiderman-meme-song.mp3',             '🕷️', 3, 'wow', 'VIBES'],
+  ['CANTINA',        'cantina-band.mp3',                    '🎷', 7, 'wow', 'TUNES'],
+  ['IPHONE REMIX',   'iphone-ringtone-remix.mp3',           '📱', 8, 'cha-ching', 'SYSTEM'],
+  ['FAHHH',          'fahhhhhhhhhhhhhh.mp3',                '😤', 0, 'scream', 'SCREAM'],
+  ['HEE HEE',        'michael-jackson-hee-hee.mp3',         '🕴️', 5, 'wow', 'TUNES'],
+  ['RICK ROLLED',    'rick-rolled-meme-aetrim1602054550919.mp3', '🕺', 2, 'wow', 'TUNES'],
+  ['PUMP SHOTGUN',   'pump-shotgun-fortnite-loud.mp3',      '🔫', 7, 'pipe', 'GAMER'],
+  ['CRICKETS',       'awkward-cricket-sound-effect.mp3',    '🦗', 8, 'fail', 'MEMES'],
+  ['WHIP CRACK',     'crack_the_whip.mp3',                  '🥢', 7, 'pipe', 'CLANG'],
+  ['YOUR DOOM',      'welcome-to-your-doom.mp3',            '💀', 3, 'boom', 'SCREAM'],
+  ['EGGMAN',         'eggman-laugh-sonic-generations.mp3',  '🥚', 8, 'wow', 'GAMER'],
+  ['APPLAUSE',       'aplausos_3.mp3',                      '👏', 2, 'cha-ching', 'TUNES'],
+  ['TIKI TAKA',      'tiki-taka_T7e9Hjw.mp3',               '⚽', 4, 'pipe', 'VIBES'],
 ];
 
 const ALL_SOUNDS = SOUNDS.map(s => ({ name: s[0], file: s[1], emoji: s[2], color: s[3], synth: s[4], cat: s[5] }));
@@ -643,13 +779,31 @@ function spawnEmoji() {
   emojis.appendChild(e);
   e.addEventListener('animationend', () => e.remove());
 }
-for (let i = 0; i < 22; i++) spawnEmoji();
-setInterval(() => { if (emojis.children.length < 30) spawnEmoji(); }, 600);
+let emojiTimer = null;
+function startEmojiRain() {
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  if (emojiTimer) return;
+  for (let i = 0; i < 12; i++) spawnEmoji();
+  emojiTimer = setInterval(() => {
+    if (document.hidden || emojis.children.length >= 18) return;
+    if (matchMedia('(prefers-reduced-motion: reduce)').matches) { emojis.innerHTML = ''; return; }
+    spawnEmoji();
+  }, 900);
+}
+document.addEventListener('visibilitychange', () => {
+  if (document.hidden) {
+    if (emojiTimer) { clearInterval(emojiTimer); emojiTimer = null; }
+    emojis.innerHTML = '';
+  } else {
+    startEmojiRain();
+  }
+});
 
 /* ---------------- POP COMBO TEXT ---------------- */
 function spawnPop(x, y) {
   const p = document.createElement('div');
   p.className = 'pop';
+  p.setAttribute('aria-hidden', 'true');
   p.textContent = POP_TEXT[Math.floor(Math.random()*POP_TEXT.length)];
   const c = ['#ff2ec4','#00ffff','#ffee00','#39ff14','#ff9100','#a020f0'][Math.floor(Math.random()*6)];
   p.style.color = c;
@@ -660,32 +814,34 @@ function spawnPop(x, y) {
 }
 
 /* ---------------- RENDER PADS ---------------- */
+const padEls = [];   // original ALL_SOUNDS index -> pad element (current filter)
 function render() {
   grid.innerHTML = '';
-  const list = ALL_SOUNDS.filter(s => currentCat === 'ALL' || s.cat === currentCat);
-  list.forEach((s) => {
-    const realIdx = ALL_SOUNDS.findIndex(x => x.name === s.name);
-    const pad = document.createElement('div');
+  padEls.length = 0;
+  const list = ALL_SOUNDS
+    .map((s, idx) => ({ s, idx }))
+    .filter(({ s }) => currentCat === 'ALL' || s.cat === currentCat);
+  list.forEach(({ s, idx }) => {
+    const pad = document.createElement('button');
+    pad.type = 'button';
     pad.className = 'pad c' + s.color;
-    pad.innerHTML = `<span class="emoji">${s.emoji}</span><span class="name">${s.name}</span><span class="hits" id="hits-${realIdx}">${hits[realIdx] || 0}</span>`;
+    pad.innerHTML = `<span class="emoji" aria-hidden="true">${s.emoji}</span><span class="name">${s.name}</span><span class="hits" id="hits-${idx}" aria-hidden="true">${hits[idx] || 0}</span>`;
+    padEls[idx] = pad;
     pad.addEventListener('click', e => {
       // if a long-hold just machine-gunned this pad, skip the tap that
       // fires right after the touch/mouse release
       if (held) { held = false; return; }
-      play(realIdx); spawnPop(e.clientX, e.clientY);
+      play(idx); spawnPop(e.clientX, e.clientY);
     });
-    // machine-gun on hold — Pointer Events unify mouse AND touch, so this
-    // works on desktop and mobile. pointer capture keeps firing even if the
-    // finger drags off the pad.
+    // machine-gun on hold. Pointer Events unify mouse AND touch. Pointer
+    // capture keeps firing even if the finger drags off the pad.
     let holdTimer = null, firing = null, held = false;
     const startHold = (x, y) => {
       clearTimeout(holdTimer); if (firing) clearInterval(firing); firing = null;
       held = false;
       holdTimer = setTimeout(() => {
         held = true;
-        // machine-gun: just keep replaying on a fixed interval, back to back,
-        // no waiting for each sound to finish
-        const tick = () => { play(realIdx, true); spawnPop(x, y); };
+        const tick = () => { play(idx, true); spawnPop(x, y); };
         tick();
         firing = setInterval(tick, 110);
       }, 380);
@@ -729,17 +885,8 @@ const audioEls = new Set();
 const wasources = new Set();
 let stopped = false;
 
-// Per-sound instance counter so "hold to machine-gun" can play sounds
-// CONSECUTIVELY (start the next only after the previous one finished)
-// instead of stacking overlapping copies of the same pad.
-const activeCount = new Map();
-function noteStarted(idx) { activeCount.set(idx, (activeCount.get(idx) || 0) + 1); }
-function noteEnded(idx) {
-  const n = activeCount.get(idx) || 0;
-  if (n > 0) activeCount.set(idx, n - 1);
-  else activeCount.delete(idx);
-}
-function isPlaying(idx) { return (activeCount.get(idx) || 0) > 0; }
+// Instance tracking was removed: it was unused and went negative whenever a
+// detune or echo copy ended without a matching start.
 
 let audioCtx = null;
 function ctx() {
@@ -767,10 +914,9 @@ function ctx() {
   return audioCtx;
 }
 
-// last created playback element per sound index
-const __lastEl = {};
 // Pure "make a sound, no counters" — used by play(), detune, echo and replay.
 function makeSound(idx, volume, rate) {
+  if (pauseActive) return null;   // PAUSE: hit all the buttons you want, in silence
   ctx();
   const s = ALL_SOUNDS[idx];
   const a = new Audio(BASE + s.file);
@@ -779,9 +925,8 @@ function makeSound(idx, volume, rate) {
   a.preservesPitch = false;
   a.volume = (volume === undefined ? 1 : volume);
   a._idx = idx;
-  __lastEl[idx] = a;
   audioEls.add(a);
-  a.addEventListener('ended', () => { audioEls.delete(a); noteEnded(idx); });
+  a.addEventListener('ended', () => audioEls.delete(a));
   a.addEventListener('pause', () => { if (!pauseActive) audioEls.delete(a); });
   a.addEventListener('error', () => { audioEls.delete(a); synth(s.synth); });
   a.addEventListener('canplaythrough', () => { if (!stopped && !pauseActive) a.play().catch(() => synth(s.synth)); });
@@ -789,27 +934,30 @@ function makeSound(idx, volume, rate) {
   return a;
 }
 
-function play(idx, quiet) {
+function play(idx, quiet, volume) {
+  if (pauseActive) return;             // PAUSE freezes all new sound
   const s = ALL_SOUNDS[idx];
   ctx();
   stopped = false;
-  makeSound(idx, 1);                    // main copy
-  noteStarted(idx);
-  if (detuneOn) makeSound(idx, 0.6, pitchVal * 1.15);   // detuned twin, louder + more off-key
-  if (echoOn) {                          // a couple of faded repeats (echo)
+  const vol = (volume === undefined) ? 1 : volume;
+  makeSound(idx, vol);                                   // main copy
+  if (detuneOn) makeSound(idx, vol * 0.6, pitchVal * 1.15);   // detuned twin
+  if (echoOn) {                                               // faded repeats
     [0.22, 0.44].forEach((d, i) => setTimeout(() => {
-      if (!stopped && !pauseActive) makeSound(idx, 0.28 - i * 0.09, pitchVal);
+      if (!stopped && !pauseActive) makeSound(idx, vol * (0.28 - i * 0.09), pitchVal);
     }, d * 1000));
   }
   if (recording) recordLog.push([Date.now(), idx]);
 
   bouncePad(idx);
+  pulseEq();
   if (quiet) return;   // quiet = machine-gun mode: just the sound, no counters
 
   hits[idx]++;
   const h = document.getElementById('hits-' + idx);
   if (h) h.textContent = hits[idx];
   showNow(s.name);
+  bumpCombo();
 
   aura += 5 + Math.floor(Math.random()*20);
   auraVal.textContent = aura;
@@ -825,14 +973,53 @@ function play(idx, quiet) {
     flash.style.display = 'block';
     setTimeout(() => flash.style.display = 'none', 130);
   }
-  document.body.classList.remove('shaking');
-  void document.body.offsetWidth;
-  document.body.classList.add('shaking');
-  if (chaosMode) {
-    document.body.classList.remove('mega-shake');
+  if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    document.body.classList.remove('shaking');
     void document.body.offsetWidth;
-    document.body.classList.add('mega-shake');
+    document.body.classList.add('shaking');
+    if (chaosMode) {
+      document.body.classList.remove('mega-shake');
+      void document.body.offsetWidth;
+      document.body.classList.add('mega-shake');
+    }
   }
+}
+
+/* ---------------- COMBO + EQUALIZER ---------------- */
+const eqBars = [];
+(function buildEq() {
+  const eq = document.getElementById('eq');
+  if (!eq) return;
+  for (let i = 0; i < 16; i++) {
+    const b = document.createElement('i');
+    eq.appendChild(b);
+    eqBars.push(b);
+  }
+})();
+function pulseEq() {
+  if (!eqBars.length || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  eqBars.forEach(b => { b.style.transform = 'scaleY(' + (0.15 + Math.random() * 0.85).toFixed(2) + ')'; });
+  clearTimeout(pulseEq._t);
+  pulseEq._t = setTimeout(() => eqBars.forEach(b => { b.style.transform = 'scaleY(.1)'; }), 150);
+}
+let combo = 0;
+function bumpCombo() {
+  combo++;
+  const el = document.getElementById('combo');
+  if (el) {
+    el.textContent = 'COMBO x' + combo;
+    el.classList.add('on');
+  }
+  clearTimeout(bumpCombo._t);
+  bumpCombo._t = setTimeout(() => {
+    combo = 0;
+    if (el) { el.classList.remove('on'); el.textContent = 'COMBO x0'; }
+  }, 1200);
+}
+function resetCombo() {
+  combo = 0;
+  const el = document.getElementById('combo');
+  if (el) { el.classList.remove('on'); el.textContent = 'COMBO x0'; }
 }
 
 /* ---------------- NEW CRAZY FEATURES ---------------- */
@@ -881,10 +1068,8 @@ function swapPitch() {
 }
 
 function bouncePad(idx) {
-  const pads = grid.querySelectorAll('.pad');
-  const list = ALL_SOUNDS.filter(x => currentCat === 'ALL' || x.cat === currentCat);
-  const pos = list.findIndex(x => x.name === ALL_SOUNDS[idx].name);
-  if (pads[pos]) { pads[pos].classList.remove('flash'); void pads[pos].offsetWidth; pads[pos].classList.add('flash'); }
+  const pad = padEls[idx];
+  if (pad) { pad.classList.remove('flash'); void pad.offsetWidth; pad.classList.add('flash'); }
 }
 function showNow(t) { now.textContent = '▶️ ' + t + ' 💀'; now.classList.add('show'); clearTimeout(showNow._t); showNow._t = setTimeout(() => now.classList.remove('show'), 900); }
 
@@ -902,17 +1087,11 @@ function enableChaos() {
   }, 340);
 }
 function playRandomSound(idx) {
-  const s = ALL_SOUNDS[idx];
-  ctx();
-  const a = new Audio(BASE + s.file);
-  a.playbackRate = pitchMode; a.preservesPitch=false;
-  audioEls.add(a);
-  a.addEventListener('ended', () => audioEls.delete(a));
-  a.addEventListener('pause', () => audioEls.delete(a));
-  a.play().catch(() => synth(s.synth));
-  a.volume = .5 + Math.random()*.4;
-  bouncePad(idx);
-  hits[idx]++; const h = document.getElementById('hits-'+idx); if (h) h.textContent = hits[idx];
+  if (pauseActive || stopped) return;
+  play(idx, true, .5 + Math.random() * .4);   // quiet: shared engine, correct pitch
+  hits[idx]++;
+  const h = document.getElementById('hits-' + idx);
+  if (h) h.textContent = hits[idx];
 }
 function disableChaos() {
   chaosMode = false;
@@ -936,6 +1115,7 @@ function stopAll() {
   wasources.clear();
   document.body.classList.remove('chaos2');
   chaos = 0; chaosCount.textContent = 0;
+  resetCombo();
 }
 // Full factory reset: silence everything, clear counters, and reset the board.
 function resetAll() {
@@ -957,10 +1137,9 @@ function resetAll() {
   render();
 }
 function randomPad() {
-  const list = ALL_SOUNDS.filter(s => currentCat === 'ALL' || s.cat === currentCat);
-  const s = list[Math.floor(Math.random()*list.length)];
-  const idx = ALL_SOUNDS.findIndex(x => x.name === s.name);
-  play(idx);
+  const list = ALL_SOUNDS.map((s, idx) => ({ s, idx })).filter(({ s }) => currentCat === 'ALL' || s.cat === currentCat);
+  const pick = list[Math.floor(Math.random() * list.length)];
+  if (pick) play(pick.idx);
 }
 function sandwich() {
   play(idxOf('BRUH'));
@@ -1019,11 +1198,29 @@ document.getElementById('randomBtn').addEventListener('click', randomPad);
 document.getElementById('sandwichBtn').addEventListener('click', sandwich);
 document.getElementById('stopBtn').addEventListener('click', stopAll);
 document.getElementById('resetBtn').addEventListener('click', resetAll);
+document.getElementById('moreBtn').addEventListener('click', () => {
+  const tools = document.getElementById('moreTools');
+  const open = tools.classList.toggle('open');
+  document.getElementById('moreBtn').setAttribute('aria-expanded', String(open));
+  document.body.classList.toggle('tools-open', open);
+});
 
 /* ---------------- HELP MODAL ---------------- */
 const helpOverlay = document.getElementById('helpOverlay');
-function openHelp() { helpOverlay.classList.add('show'); }
-function closeHelp() { helpOverlay.classList.remove('show'); }
+const appRoot = document.getElementById('app');
+let helpLastFocus = null;
+function openHelp() {
+  helpLastFocus = document.activeElement;
+  helpOverlay.classList.add('show');
+  if (appRoot) appRoot.inert = true;
+  const close = document.getElementById('helpClose');
+  if (close) close.focus();
+}
+function closeHelp() {
+  helpOverlay.classList.remove('show');
+  if (appRoot) appRoot.inert = false;
+  if (helpLastFocus && helpLastFocus.focus) helpLastFocus.focus();
+}
 document.getElementById('helpBtn').addEventListener('click', openHelp);
 document.getElementById('helpClose').addEventListener('click', closeHelp);
 helpOverlay.addEventListener('click', e => { if (e.target === helpOverlay) closeHelp(); });
@@ -1092,8 +1289,14 @@ function synth(kind) {
 }
 
 /* ---------------- INIT ---------------- */
+const COUNT = ALL_SOUNDS.length;
+['padCount', 'wallCount', 'footerCount'].forEach(id => {
+  const el = document.getElementById(id);
+  if (el) el.textContent = COUNT;
+});
 buildCat();
 render();
+startEmojiRain();
 </script>
 </body>
 </html>
